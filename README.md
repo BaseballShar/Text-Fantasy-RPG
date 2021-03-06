@@ -13,7 +13,7 @@ Chan Yuk Yin (3035786574)
 - Player is advised to save the game regularly during the playthrough, upon death of the character, any unsaved progress will be lost.
 
 ### Game features:
-1 Shop and equipment system (Requirement 2 and 3)
+1. #### Shop and equipment system (Requirement 2 and 3)
 The data structure such as arrays and vectors ,and dynamic memory system will help to record the player equipment status. For example, record what the player has purchased and equipped. How much money the player got will also be saved to determine whether a purchase is successful.
 
 2. Lucky Draw system (Requirement 1)
