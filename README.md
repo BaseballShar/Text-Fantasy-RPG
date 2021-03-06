@@ -8,4 +8,4 @@ Chan Yuk Yin (3035786574)
 ### Game Rule:
 - As the game is text-based, the player will be providing instructions to the game by inputting commands in the terminal.
 - Inputs will be mainly in the form of numerals, the player can specify actions/choices by inputting the corrosponding integers to the terminal. While a few inputs are text-based, for example, the name of the character.
--Player is advised to save the game regularly during the playthrough, upon death of the character, any unsaved progress will be lost.
+- Player is advised to save the game regularly during the playthrough, upon death of the character, any unsaved progress will be lost.
