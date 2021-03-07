@@ -32,7 +32,7 @@ Chan Yuk Yin (3035786574)
 
 5. **Game saving and loading system** (*Requirement 4*)
 
-- The player can save or load the game by inputting an integer and the system will execute the operations accordingly.
+- Game will be saved automatically after every action. Load game option is provided at the start menu.
 
 ### Multiple-File compilation (*Requirement 5*):
 Different systems of the game will be packaged into functions and stored in respective files. For example, shop.cpp and shop.h for functions related to the shop systems. This is to view the game in a more organized manner which allows easy debugging and improving.
