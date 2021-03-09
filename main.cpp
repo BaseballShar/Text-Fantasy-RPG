@@ -337,6 +337,22 @@ void CombatMonsterAttack(Player &player, Monster &monster) {
     }
 }
 
+// Purpose: To determine the outcome of the combat with the monster
+// Experience point and money gained is calculated using the level
+// of monster that the player defeated
+void CombatReward(Player &player, int combat_result) {
+  if (combat_result != -1) {
+    player.exp += 100 * combat_result;
+    player.money += 50 * combat_result;
+    cout << "You have acquried " << "$" << 100 * combat_result  << endl ;
+    cout << "You have acquried " << 100 * combat_result 
+    << " XP points" << endl ;
+
+  } else { 
+    player.death = true ;
+    }
+}
+
 // Purpose: Function to get the action take by the player
 void GetAction(Player &player/*, Shop shop*/) {   
   int action;
