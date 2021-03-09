@@ -121,10 +121,34 @@ bool IsOldPlayer() {
   }   
 }
 
+void SaveGame(Player player) {
+  ofstream file("rpg_save");
+  file << player.name;
+  file << "\n";
+  file << player.career;
+  file << "\n";
+  file << player.hp_basic;
+  file << "\n";
+  file << player.str_basic;
+  file << "\n";
+  file << player.def_basic;
+  file << "\n";
+  file << player.agi_basic;
+  file << "\n";
+  file << player.level;
+  file << "\n";
+  file << player.exp;
+  file << "\n";
+  file << player.skill_pt;
+  file << "\n";
+  file << player.money;
+  file << "\n";
+}
+
 // Input: Player object for storing the retrieved data from file
 // Purpose: Loading the saved progress of previous game
 void LoadGame(Player &player) {
-  ifstream file ("rpg_save");
+  ifstream file("rpg_save");
   file >> player.name;
   file >> player.career;
   file >> player.hp_basic;
@@ -194,7 +218,7 @@ void DisplayWelcomeMenu() {
   }
 } 
 
-//Purpose: Function to get the action take by the player
+// Purpose: Function to get the action take by the player
 void GetAction(Player &player/*, Shop shop*/) {   
   int action;
   int combat_result;
@@ -244,5 +268,3 @@ int main() {
 
   return 0;
 }
-
-
