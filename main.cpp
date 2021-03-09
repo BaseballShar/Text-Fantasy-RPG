@@ -67,6 +67,22 @@ class Player
     }
 };
 
+// Purpose: For storing various status of the monster and providing useful 
+// functions to print status of the monster
+class Monster {
+  public:
+    int level;
+    int hp; 
+    int str; 
+    int def; 
+    int agi;
+    
+    // Purpose: Printing out the monster status
+    void PrintStatus() {
+      cout << "Monster  hp: "<< hp << " strength: " << str << " defense: " << def << " and agility: " << agi << endl;
+    }
+} ;
+
 // Purpose: Print out a line of user specified symbol and length
 void Line(char symbol, int noOfSym = 85) {   
   string output;
@@ -121,6 +137,7 @@ bool IsOldPlayer() {
   }   
 }
 
+// Purpose: For saving the game
 void SaveGame(Player player) {
   ofstream file("rpg_save");
   file << player.name;
@@ -231,7 +248,7 @@ void GetAction(Player &player/*, Shop shop*/) {
   cout << "$" << player.money << "\t\t\t\t\t AGI : " << player.agi_actual << endl;
 
   line('-');
-  cout << "Save[1] \t Fight[2] \t Shop[3] \t Skill[4]" << endl;
+  cout << "Quit[1] \t Fight[2] \t Shop[3] \t Skill[4]" << endl;
   cout << "Status[5]" << endl;
   line('*');
 
@@ -240,22 +257,25 @@ void GetAction(Player &player/*, Shop shop*/) {
   //To determine which action to be taken
   switch(action) {   
     case 1:
-      SaveGame(player);
       player.death = true;
       break;
-    /*case 2: // Combat
-      combat_result = combat(player, shop);
-      combat_reward(player, combat_result);
-      break; */
+    case 2: // Combat
+      combat_result = Combat(player, shop);
+      CombatReward(player, combat_result);
+      SaveGame(player);
+      break;
     /*case 3: // Shop
       shop_access(player , shop);
+      SaveGame(player);
       break; */
     /*case 4: // Skill points assignment
       skill_pt(player);
       player_equipment_effect(player, shop);
+      SaveGame(player);
       break;*/ 
     /*case 5: // Player status
       player_detail_status(player, shop);
+      SaveGame(player);
       break;*/
   }
 } 
@@ -268,3 +288,5 @@ int main() {
 
   return 0;
 }
+
+
