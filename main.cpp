@@ -285,8 +285,8 @@ bool CombatIsHit(int attack_agi, int defend_agi) {
   return false;
 }
 
-// Purpose: To calculate health reduction(value of the attack) by considering
-// status(strength, defense and agility) of both sides
+// Purpose: To calculate health reduction of monster(value of the attack) 
+// by considering status(strength, defense and agility) of both sides
 void CombatPlayerAttack(Player &player, Monster &monster) {
   Pause(500);
 
@@ -308,6 +308,32 @@ void CombatPlayerAttack(Player &player, Monster &monster) {
     << monster.hp << endl;
   } else {
     cout << "Monster evaded your attack" << endl;
+    }
+}
+
+// Purpose: To calculate health reduction of player(value of the attack) 
+// by considering status(strength, defense and agility) of both sides
+void CombatMonsterAttack(Player &player, Monster &monster) {
+    Pause(500);
+    
+    cout << "It is the Monster's turn to attack" << endl; 
+
+    if (CombatIsHit(monster.agi, player.agi_actual 
+        * player.item_agi_multiplier)) {   
+      int monster_att = monster.str 
+      * CombatMultipler(monster.str, player.def_actual 
+      * player.item_def_multiplier);
+
+      player.hp_actual -= monster_att;
+      
+      cout << "Monster have dealt " << monster_att 
+      << " damage to you" << endl;
+
+      cout << player.name << " HP : " << player.hp_actual 
+      << " Monster HP: " << monster.hp << endl;
+
+    } else {
+      cout << "You have evaded monster's attack" << endl;
     }
 }
 
