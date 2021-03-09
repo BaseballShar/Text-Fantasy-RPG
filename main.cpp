@@ -79,7 +79,8 @@ class Monster {
     
     // Purpose: Printing out the monster status
     void PrintStatus() {
-      cout << "Monster  hp: "<< hp << " strength: " << str << " defense: " << def << " and agility: " << agi << endl;
+      cout << "Monster  hp: "<< hp << " strength: " << str << " defense: " 
+      << def << " and agility: " << agi << endl;
     }
 } ;
 
@@ -195,12 +196,15 @@ void GetCareer(int pause_career, Player &player) {
   
   cout << "Here are the list of careers that you can choose from" << endl;
   Pause(pause_career);
-  cout << "Adventurer Class : Human with average abilities " << endl;
+  cout << "Adventurer Class: Human with average abilities " << endl;
   Pause(pause_career);
-  cout << "Warrior Class : Human with moderately high strength and superior defense but low mobility "<< endl;
+  cout << "Warrior Class: Human with moderately high strength"
+  << " and superior defense but low mobility " << endl;
   Pause(pause_career);
-  cout << "Assassin Class : Human with strong attack , rapid movement but lack defense "<< endl;
-  cout << "Enter 1 for Adventurer Class , 2 for Warrior and 3 for Assassin" << endl;
+  cout << "Assassin Class: Human with strong attack, rapid movement" 
+  << " but lack defense " << endl;
+  cout << "Enter 1 for Adventurer Class ,"
+  << " 2 for Warrior and 3 for Assassin" << endl;
   cin >> career_choice;
     
 
@@ -250,15 +254,23 @@ Monster CombatLevelSelection(Player player) {
     monster.str = 100 * log2(monster_level + 1);
     monster.def = 50 *  log2(monster_level + 1);
     monster.agi = 50 * log2(monster_level + 1);
-    cout << "Are you sure you want to fight level " << monster_level << " monster with " << endl;
+    cout << "Are you sure you want to fight level " 
+    << monster_level << " monster with " << endl;
     monster.PrintStatus();
     player.PrintStatus();
 
     cout << "YES[1] \t No[0] " << endl;
     cin >> confirm_choice;
     }
-    
+
     return monster;
+}
+
+// Purpose: Function for calculating the attack modifier 
+// based on strength and defense
+double CombatMultipler(int attack_str, int defend_def) {
+  double ratio = attack_str * 1.0 / defend_def;
+  return 4 / (1 + exp(-ratio)) - 2;
 }
 
 // Purpose: Function to get the action take by the player
@@ -268,10 +280,18 @@ void GetAction(Player &player/*, Shop shop*/) {
 
   line('*');
   cout << "DEEP DARK FANTASY" << endl;
-  cout << "Name : " << player.name << "\t\t\t\t HP : " << player.hp_actual << endl;
-  cout << "Career : " << player.career << "\t\t\t STR : " << player.str_actual << endl;
-  cout << "Level : " << player.level << "(" << player.exp << "/" << 50*player.level*player.level << ")" << "\t\t\t DEF : " << player.def_actual << endl;
-  cout << "$" << player.money << "\t\t\t\t\t AGI : " << player.agi_actual << endl;
+  cout << "Name : " << player.name 
+  << "\t\t\t\t HP : " << player.hp_actual << endl;
+
+  cout << "Career : " << player.career 
+  << "\t\t\t STR : " << player.str_actual << endl;
+
+  cout << "Level : " << player.level << "(" << player.exp << "/" 
+  << 50*player.level*player.level << ")" << "\t\t\t DEF : " 
+  << player.def_actual << endl;
+
+  cout << "$" << player.money << "\t\t\t\t\t AGI : " 
+  << player.agi_actual << endl;
 
   line('-');
   cout << "Quit[1] \t Fight[2] \t Shop[3] \t Skill[4]" << endl;
