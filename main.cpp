@@ -235,6 +235,32 @@ void DisplayWelcomeMenu() {
   }
 } 
 
+Monster CombatLevelSelection(Player player) {
+  int monster_level;
+  Monster monster;
+  bool confirm_choice = false;
+    
+    // Monster level selection
+  while (confirm_choice == false) {   
+    cout << "What level of monster you want to fight ? ";
+    cin >> monster_level;
+    
+    monster.level = monster_level;
+    monster.hp = 500 * monster_level;
+    monster.str = 100 * log2(monster_level + 1);
+    monster.def = 50 *  log2(monster_level + 1);
+    monster.agi = 50 * log2(monster_level + 1);
+    cout << "Are you sure you want to fight level " << monster_level << " monster with " << endl;
+    monster.PrintStatus();
+    player.PrintStatus();
+
+    cout << "YES[1] \t No[0] " << endl;
+    cin >> confirm_choice;
+    }
+    
+    return monster;
+}
+
 // Purpose: Function to get the action take by the player
 void GetAction(Player &player/*, Shop shop*/) {   
   int action;
