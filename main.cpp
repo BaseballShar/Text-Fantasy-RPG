@@ -10,6 +10,7 @@
 // fight the Monster King and save mankind to win the game.
 
 #include <iostream>
+#include <string>
 using namespace std;
 
 // Purpose: For storing various status of the player and providing useful 
@@ -21,29 +22,30 @@ class Player
     string name; // To save the player name
     string career; // To store the job selection of the player
 
-    long long hp_basic; //variables for the hp
+    long long hp_basic; // Variables for the hp
     double item_hp_multiplier = 1; 
     long long hp_actual;
 
-    long long str_basic; //variables for the strength
+    long long str_basic; // Variables for the strength
     double item_str_multiplier = 1;
     long long str_actual;
 
-    long long def_basic; //variables for the defense
+    long long def_basic; // Variables for the defense
     double item_def_multiplier = 1;
     long long def_actual;
 
-    long long agi_basic;  //variables for the agility
+    long long agi_basic;  // Variables for the agility
     double item_agi_multiplier = 1;
     long long agi_actual;
 
-    int level = 1; //variables for storing player xp levels and money
+    int level = 1; // Variables for storing player xp levels and money
     int exp = 0;
     double xp_multiplier;
     int skill_pt = 0;
     int money = 0;
     int money_multiplier;
     
+    // Input: Basic status and career of the player
     // Purpose: This function is to initialize the status of the player
     void SetStatus(long long hp_basic, long long str_basic, 
                     long long def_basic, long long agi_basic, string career) {   
@@ -57,18 +59,34 @@ class Player
     // Purpose: This function is to print the status of the player
     void PrintStatus() {
       cout << name << " hp: " << hp_actual << " strength: " << str_actual 
-      << " defense: " << def_actual << " and agility: " << agi_actual << endl ;
+      << " defense: " << def_actual << " and agility: " << agi_actual << endl;
     }
 };
 
-void DisplayWelcomeMenu() {
-  cout << "Welcome to Deep Dark Fantasy" << endl;
-} 
+void PrintStory() {
+  string story = "You were a hardworking programmer in an international IT\n"
+  "company,you had contributed to the company with all your heart and soul.\n"
+  "However, you recently discovered that your boss had been stealing your idea\n"
+  "and presenting it to the central which brought him wealth and fame.\n"
+  "You were so outraged that you grabbed a keyboard nearby and smashed it\n"
+  "against your boss.\n\n"
+  "Not knowing why you missed it!\n"
+  "The keyboard crashed onto the monitor and the electrical wires inside\n"
+  "were in contact with your hand. It was too late to retract your hands.\n"
+  "Suddenly, a blue portal emerged near the desk and you were teleported to\n"
+  "a strange new world.\n\n"   
+  "And now! You are destinated to be the hero of this world!\n"
+  "Fight the three most horrible Monsters to take their maps!\n"
+  "The maps lead you to fight the King Of Boss \"Infinite Comments Client\"!\n"
+  "The world needs your power!\n";
+  cout << story << endl;
+}
 
+// Purpose: For checking whether the player has played the game before
 bool IsOldPlayer() {   
   int has_played;
 
-  cout << "Have you played this game before" << endl;
+  cout << "Have you played this game before ?" << endl;
   cout << "Enter 1 if you haven't , 2 if you have : ";
   cin >> has_played ;
 
@@ -84,25 +102,28 @@ bool IsOldPlayer() {
   }   
 }
 
+// Purpose: Functions for displaying the welcome message
+// If player has played before, saved progress will be loaded
+// If player has not played before, new character profile will be created
+void DisplayWelcomeMenu() {
+  cout << "Welcome to Deep Dark Fantasy" << endl;
+  
+  if(IsOldPlayer()) {
+    LoadGame(player);
+  } else {  
+    PrintStory(); 
+    GetName(player);
+    GetCareer(100, player); // 100 ms pause
+  }
+} 
+
+//main function
 int main() {
   
   Player player;
   return 0;
 }
 
-  string story = "You were a hardworking programmer in an international IT\n
-  company,you had contributed to the company with all your heart and soul.\n
-  However, you recently discovered that your boss had been stealing your idea\n
-  and presenting it to the central which brought him wealth and fame.\n
-  You were so outraged that you grabbed a keyboard nearby and smashed it\n
-  against your boss.\n
-  Not knowing why you missed it!\n
-  The keyboard crashed onto the monitor and the electrical wires inside\n
-  were in contact with your hand. It was too late to retract your hands.\n
-  Suddenly, a blue portal emerged near the desk and you were teleported to\n
-  a strange new world.\n   
-  And now! You are destinated to be the hero of this world!\n
-  Fight the three most horrible Monsters to take their maps!\n
-  The maps lead you to fight the King Of Boss \"Infinite Comments Client\"!\n
-  The world needs your power!\n"
+
+
 
