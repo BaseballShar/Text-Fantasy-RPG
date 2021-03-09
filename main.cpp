@@ -185,7 +185,7 @@ void GetName(Player &player) {
   string name;
   cout << "What is your name adventurer ? ";
   cin >> name;
-  cout << "Welcome " << name << "" << endl;
+  cout << "Welcome " << name << endl;
   player.name = name;
 }
 
@@ -271,6 +271,44 @@ Monster CombatLevelSelection(Player player) {
 double CombatMultipler(int attack_str, int defend_def) {
   double ratio = attack_str * 1.0 / defend_def;
   return 4 / (1 + exp(-ratio)) - 2;
+}
+
+// Purpose: To determine whether a hit is successful or not
+// Mechanism : Create a bound of a randomly generate number by the ratio of agility of both sides
+// the higher the ratio, the more large the bound , hence a hit is more likely
+bool CombatIsHit(int attack_agi, int defend_agi) {    
+  double max = attack_agi * 100 / defend_agi;
+
+  if ( rand() % 100 + 1 <= max ) {
+    return true;
+  }
+  return false;
+}
+
+// Purpose: To calculate health reduction(value of the attack) by considering
+// status(strength, defense and agility) of both sides
+void CombatPlayerAttack(Player &player, Monster &monster) {
+  Pause(500);
+
+  cout << endl;
+  cout << "It is the player's turn to attack" << endl; 
+
+  if (CombatIsHit(player.agi_actual * player.item_agi_multiplier,
+      monster.agi)) {   
+    int player_att = player.str_actual * player.item_str_multiplier 
+    * CombatMultipler(player.str_actual
+    * player.item_str_multiplier, monster.def);
+
+    monster.hp -= player_att;
+
+    cout << "You have dealt " << player_att 
+    << " damage to the monster" << endl;
+
+    cout << player.name << " HP : " << player.hp_actual << " Monster HP: " 
+    << monster.hp << endl;
+  } else {
+    cout << "Monster evaded your attack" << endl;
+    }
 }
 
 // Purpose: Function to get the action take by the player
