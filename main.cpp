@@ -166,13 +166,13 @@ void GetCareer(int pause_career, Player &player) {
   // Assign character status
   switch (career_choice) {   
     // hp str def agi career
-    case 1 :
+    case 1:
       player.set_status(1000, 100, 100, 100, "Adventurer");
       break;
-    case 2 :
+    case 2:
       player.set_status(2000, 150, 200, 50, "Warrior");
       break;
-    case 3 :
+    case 3:
       player.set_status(800, 250, 50, 200, "Assassian");
       break;
   }
@@ -205,50 +205,34 @@ void GetAction(Player &player/*, Shop shop*/) {
   cout << "Career : " << player.career << "\t\t\t STR : " << player.str_actual << endl;
   cout << "Level : " << player.level << "(" << player.exp << "/" << 50*player.level*player.level << ")" << "\t\t\t DEF : " << player.def_actual << endl;
   cout << "$" << player.money << "\t\t\t\t\t AGI : " << player.agi_actual << endl;
+
   line('-');
   cout << "Save[1] \t Fight[2] \t Shop[3] \t Skill[4]" << endl;
-  cout << "Status[5] \t Equipment[6] \t Setting[7] \t Help[8]" << endl;
+  cout << "Status[5]" << endl;
   line('*');
 
   cin >> action;
   
   //To determine which action to be taken
   switch(action) {   
-    case 1 :
-        save_game(player) ;
-        player.death = true ;
-    break 
-    case 2 : // Combat
-        new_line(100) ;
-        combat_result = combat(player, shop) ;
-        combat_reward(player, combat_result) ;
-        break 
-    case 3 : // Shop
-        new_line(100) ;
-        shop_access(player , shop) ;
-        break 
-    case 4 : // Skill points assignment
-        new_line(100) ;
-        skill_pt (player) ;
-        player_equipment_effect(player, shop) ;
-        break ; 
-        
-    case 5 : // Player status
-        new_line(100) ;
-        player_detail_status(player, shop) ;
-        break 
-    case 6 : // Change equipment
-        new_line(100) ;
-        player_change_equipment(player) ;
-        break 
-    case 7 : // Settings
-        new_line(100) ;
-        setting(player) ;
-        break 
-    case 8 :
-        new_line(100) ;
-        help() ;
-        break ;
+    case 1:
+      SaveGame(player);
+      player.death = true;
+      break;
+    /*case 2: // Combat
+      combat_result = combat(player, shop);
+      combat_reward(player, combat_result);
+      break; */
+    /*case 3: // Shop
+      shop_access(player , shop);
+      break; */
+    /*case 4: // Skill points assignment
+      skill_pt(player);
+      player_equipment_effect(player, shop);
+      break;*/ 
+    /*case 5: // Player status
+      player_detail_status(player, shop);
+      break;*/
   }
 } 
 
