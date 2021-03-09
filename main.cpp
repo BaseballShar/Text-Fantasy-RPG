@@ -212,13 +212,13 @@ void GetCareer(int pause_career, Player &player) {
   switch (career_choice) {   
     // hp str def agi career
     case 1:
-      player.set_status(1000, 100, 100, 100, "Adventurer");
+      player.SetStatus(1000, 100, 100, 100, "Adventurer");
       break;
     case 2:
-      player.set_status(2000, 150, 200, 50, "Warrior");
+      player.SetStatus(2000, 150, 200, 50, "Warrior");
       break;
     case 3:
-      player.set_status(800, 250, 50, 200, "Assassian");
+      player.SetStatus(800, 250, 50, 200, "Assassian");
       break;
   }
 
@@ -227,7 +227,7 @@ void GetCareer(int pause_career, Player &player) {
 // Purpose: Functions for displaying the welcome message
 // If player has played before, saved progress will be loaded
 // If player has not played before, new character profile will be created
-void DisplayWelcomeMenu() {
+void DisplayWelcomeMenu(Player &player) {
   cout << "Welcome to Deep Dark Fantasy" << endl;
   
   if (IsOldPlayer()) {
@@ -235,7 +235,7 @@ void DisplayWelcomeMenu() {
   } else {  
     PrintStory(); 
     GetName(player);
-    GetCareer(100, player); // 100 ms pause
+    GetCareer(500, player); // 100 ms pause
   }
 } 
 
@@ -353,12 +353,69 @@ void CombatReward(Player &player, int combat_result) {
     }
 }
 
+// Purpose: To be in charge of the whole combat situation
+// From monster creation, combating, to reward distribution
+int Combat (Player &player/*, Shop shop*/) {   
+    //bool auto_combat = player.setting[0].second ;
+    
+    // Backup character data 
+    Player player_backup = player; // Disallow status to changing while recording item comsumption
+    
+    // Update player status 
+    //player_equipment_effect(player, shop) ;
+
+    // Creation of monster
+    Monster monster = CombatLevelSelection(player);
+    
+    // Fighting with monster   
+    while (player.hp_actual > 0 && monster.hp > 0) {   
+      /*if (auto_combat == false) {   
+        int player_option;
+        cout << "What do you want to do next ? " << endl;
+        cout << "Enter 1 for normal attack  " << endl;
+        cout << "Enter 2 for using items  " << endl;
+        cin >> player_option;
+
+        switch(player_option) {
+          case 1 :
+            CombatPlayerAttack (player, monster);
+            break ;
+          case 2 :
+            //combat_player_use_item (player, player_backup);
+            break;
+        }
+
+      } else {*/
+        CombatPlayerAttack(player, monster);
+        //} 
+
+        if (!(player.hp_actual > 0 && monster.hp > 0)) {
+          break;
+        }
+
+        CombatMonsterAttack(player, monster);      
+    }
+    
+    // Combat outcome
+    if (player.hp_actual > 0) {   
+        cout << "You have defeated the monster !!! " << endl;
+
+        // regenerate character status
+        player = player_backup;
+
+        return monster.level;
+    } else {   
+        cout << "You have been defeated " << endl;
+        return -1;
+    }
+}
+
 // Purpose: Function to get the action take by the player
 void GetAction(Player &player/*, Shop shop*/) {   
   int action;
   int combat_result;
 
-  line('*');
+  Line('*');
   cout << "DEEP DARK FANTASY" << endl;
   cout << "Name : " << player.name 
   << "\t\t\t\t HP : " << player.hp_actual << endl;
@@ -373,10 +430,10 @@ void GetAction(Player &player/*, Shop shop*/) {
   cout << "$" << player.money << "\t\t\t\t\t AGI : " 
   << player.agi_actual << endl;
 
-  line('-');
+  Line('-');
   cout << "Quit[1] \t Fight[2] \t Shop[3] \t Skill[4]" << endl;
   cout << "Status[5]" << endl;
-  line('*');
+  Line('*');
 
   cin >> action;
   
@@ -386,7 +443,7 @@ void GetAction(Player &player/*, Shop shop*/) {
       player.death = true;
       break;
     case 2: // Combat
-      combat_result = Combat(player, shop);
+      combat_result = Combat(player/*, shop*/);
       CombatReward(player, combat_result);
       SaveGame(player);
       break;
@@ -406,13 +463,29 @@ void GetAction(Player &player/*, Shop shop*/) {
   }
 } 
 
+//// Will be amended later
+void PlayerEquipmentEffect (Player &player/*, Shop shop*/) {
+  player.hp_actual = player.hp_basic;
+  player.str_actual = player.str_basic;
+  player.def_actual = player.def_basic;
+  player.agi_actual = player.agi_basic;
+}
 //main function
 int main() {
   Player player;
 
-  DisplayWelcomeMenu();
+  // Greeting and initializing game character
+  DisplayWelcomeMenu(player);
 
-  return 0;
+  // Playing session
+  while (player.death == false)
+    {   
+        PlayerEquipmentEffect(player);
+        player.PrintStatus();
+        GetAction(player/*, shop*/) ;
+        /*if (player.death == false)
+            {level_update(player) ;}*/
+    }
+    return 0;
 }
-
 
