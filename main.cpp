@@ -109,27 +109,27 @@ bool IsOldPlayer() {
 // Input: Player object for storing the retrieved data from file
 // Purpose: Loading the saved progress of previous game
 void LoadGame(Player &player) {
-    ifstream file ("rpg_save");
-    file >> player.name;
-    file >> player.career;
-    file >> player.hp_basic;
-    file >> player.str_basic;
-    file >> player.def_basic;
-    file >> player.agi_basic;
-    file >> player.level;
-    file >> player.exp;
-    file >> player.skill_pt;
-    file >> player.money;
+  ifstream file ("rpg_save");
+  file >> player.name;
+  file >> player.career;
+  file >> player.hp_basic;
+  file >> player.str_basic;
+  file >> player.def_basic;
+  file >> player.agi_basic;
+  file >> player.level;
+  file >> player.exp;
+  file >> player.skill_pt;
+  file >> player.money;
 }
 
 // Input: Player object for recording the name of the player
 // Purpose: Function to get the name of the player
 void GetName(Player &player) {   
-    string name;
-    cout << "What is your name adventurer ? ";
-    cin >> name;
-    cout << "Welcome " << name << "" << endl;
-    player.name = name;
+  string name;
+  cout << "What is your name adventurer ? ";
+  cin >> name;
+  cout << "Welcome " << name << "" << endl;
+  player.name = name;
 }
 
 // Purpose: FUnction to get the career of the player
@@ -149,18 +149,17 @@ void GetCareer(int pause_career, Player &player) {
     
 
   // Assign character status
-  switch (career_choice)
-  {   
+  switch (career_choice) {   
     // hp str def agi career
     case 1 :
-        player.set_status(1000, 100, 100, 100, "Adventurer");
-        break;
+      player.set_status(1000, 100, 100, 100, "Adventurer");
+      break;
     case 2 :
-        player.set_status(2000, 150, 200, 50, "Warrior");
-        break;
+      player.set_status(2000, 150, 200, 50, "Warrior");
+      break;
     case 3 :
-        player.set_status(800, 250, 50, 200, "Assassian");
-        break;
+      player.set_status(800, 250, 50, 200, "Assassian");
+      break;
   }
 
 }
@@ -182,8 +181,11 @@ void DisplayWelcomeMenu() {
 
 //main function
 int main() {
-  DisplayWelcomeMenu()
   Player player;
+
+  DisplayWelcomeMenu();
+
   return 0;
 }
+
 
