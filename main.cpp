@@ -106,6 +106,7 @@ bool IsOldPlayer() {
   }   
 }
 
+// Input: Player object for storing the retrieved data from file
 // Purpose: Loading the saved progress of previous game
 void LoadGame(Player &player) {
     ifstream file ("rpg_save");
@@ -121,6 +122,7 @@ void LoadGame(Player &player) {
     file >> player.money;
 }
 
+// Input: Player object for recording the name of the player
 // Purpose: Function to get the name of the player
 void GetName(Player &player) {   
     string name;
@@ -146,22 +148,20 @@ void GetCareer(int pause_career, Player &player) {
   cin >> career_choice;
     
 
-    // Assign character status
-    switch (career_choice)
-    {   
-        // hp str def agi career
-        case 1 :
-            player.set_status(1000, 100, 100, 100, "Adventurer") ;
-            break ;
-
-        case 2 :
-            player.set_status(2000, 150, 200, 50, "Warrior") ;
-            break ;
-
-        case 3 :
-            player.set_status(800, 250, 50, 200, "Assassian") ;
-            break ;
-    }
+  // Assign character status
+  switch (career_choice)
+  {   
+    // hp str def agi career
+    case 1 :
+        player.set_status(1000, 100, 100, 100, "Adventurer");
+        break;
+    case 2 :
+        player.set_status(2000, 150, 200, 50, "Warrior");
+        break;
+    case 3 :
+        player.set_status(800, 250, 50, 200, "Assassian");
+        break;
+  }
 
 }
 
@@ -182,9 +182,8 @@ void DisplayWelcomeMenu() {
 
 //main function
 int main() {
-  
+  DisplayWelcomeMenu()
   Player player;
   return 0;
 }
-
 
