@@ -10,7 +10,11 @@
 // fight the Monster King and save mankind to win the game.
 
 #include <iostream>
+#include <fstream>
+#include <cmath>
 #include <string>
+#include <thread>
+#include <chrono>
 using namespace std;
 
 // Purpose: For storing various status of the player and providing useful 
@@ -102,6 +106,7 @@ bool IsOldPlayer() {
   }   
 }
 
+// Purpose: Loading the saved progress of previous game
 void LoadGame(Player &player) {
     ifstream file ("rpg_save");
     file >> player.name;
@@ -116,13 +121,57 @@ void LoadGame(Player &player) {
     file >> player.money;
 }
 
+// Purpose: Function to get the name of the player
+void GetName(Player &player) {   
+    string name;
+    cout << "What is your name adventurer ? ";
+    cin >> name;
+    cout << "Welcome " << name << "" << endl;
+    player.name = name;
+}
+
+// Purpose: FUnction to get the career of the player
+void GetCareer(int pause_career, Player &player) {   
+  // Display avaliable choices
+  int career_choice; 
+  cout << "What do you want to do now ?" << endl;
+  cout << "Here are the list of careers you can choose from" << endl;
+  pause (pause_career);
+  cout << "Adventurer Class : Human with average abilities " << endl;
+  pause (pause_career);
+  cout << "Warrior Class : Human with moderately high strength and superior defense but low mobility "<< endl;
+  pause (pause_career);
+  cout << "Assassin Class : Human with strong attack , rapid movement but lack defense "<< endl;
+  cout << "Enter 1 for Adventurer Class , 2 for Warrior and 3 for Assassin" << endl;
+  cin >> career_choice;
+    
+
+    // Assign character status
+    switch (career_choice)
+    {   
+        // hp str def agi career
+        case 1 :
+            player.set_status(1000, 100, 100, 100, "Adventurer") ;
+            break ;
+
+        case 2 :
+            player.set_status(2000, 150, 200, 50, "Warrior") ;
+            break ;
+
+        case 3 :
+            player.set_status(800, 250, 50, 200, "Assassian") ;
+            break ;
+    }
+
+}
+
 // Purpose: Functions for displaying the welcome message
 // If player has played before, saved progress will be loaded
 // If player has not played before, new character profile will be created
 void DisplayWelcomeMenu() {
   cout << "Welcome to Deep Dark Fantasy" << endl;
   
-  if(IsOldPlayer()) {
+  if (IsOldPlayer()) {
     LoadGame(player);
   } else {  
     PrintStory(); 
