@@ -102,6 +102,20 @@ bool IsOldPlayer() {
   }   
 }
 
+void LoadGame(Player &player) {
+    ifstream file ("rpg_save");
+    file >> player.name;
+    file >> player.career;
+    file >> player.hp_basic;
+    file >> player.str_basic;
+    file >> player.def_basic;
+    file >> player.agi_basic;
+    file >> player.level;
+    file >> player.exp;
+    file >> player.skill_pt;
+    file >> player.money;
+}
+
 // Purpose: Functions for displaying the welcome message
 // If player has played before, saved progress will be loaded
 // If player has not played before, new character profile will be created
@@ -123,7 +137,5 @@ int main() {
   Player player;
   return 0;
 }
-
-
 
 
