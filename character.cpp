@@ -13,12 +13,12 @@ void Player::SetStatus(long long hp_basic, long long str_basic,
 
 // Purpose: This function is to print the status of the player
 void Player::PrintStatus() {
-  cout << name << " hp: " << hp_actual << " strength: " << str_actual 
-  << " defense: " << def_actual << " and agility: " << agi_actual << endl;
+  cout << name << " HP: " << hp_actual << " STR: " << str_actual 
+  << " DEF: " << def_actual << " AGI: " << agi_actual << endl;
 }
 
 // Purpose: Printing out the monster status
 void Monster::PrintStatus() {
-  cout << "Monster  hp: "<< hp << " strength: " << str << " defense: " 
-  << def << " and agility: " << agi << endl;
+  cout << name << " HP: " << hp << " STR: " << str << " DEF: " 
+  << def << " AGI: " << agi << endl;
 }
