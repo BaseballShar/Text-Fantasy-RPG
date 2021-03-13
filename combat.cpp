@@ -1,4 +1,7 @@
 #include "combat.h"
+#include <cstdlib>
+#include <ctime>
+
 using namespace std;
 
 // Purpose: Pause the game for (time) miliseconds
@@ -46,12 +49,139 @@ double CombatMultipler(int attack_str, int defend_def) {
 bool CombatIsHit(int attack_agi, int defend_agi) {    
   double max = attack_agi * 100 / defend_agi;
 
+  srand(time(0));
   if ( rand() % 100 + 1 <= max ) {
     return true;
   }
   return false;
 }
 
+void CombatPlayerRandomEvent(Player &player) {
+  srand(time(0));
+  int rand_num = rand() % 100;
+    
+  if (rand_num <= 9) {
+    cout << "Random event!: Lightening strike" << endl;
+    cout << player.name + " received " << (int) (0.025 * (rand_num + 1) * player.hp_actual); 
+    cout << " damage " << endl;
+
+    player.hp_actual *= (1 - 0.025 * (rand_num + 1));
+    player.PrintStatus();
+
+  } else if (rand_num <= 19) {
+    cout << "Random event!: HEALING" << endl;
+    cout << player.name + " received " << (int) (0.025 * (rand_num - 9) * player.hp_actual);
+    cout << " healing " << endl;
+      
+    player.hp_actual *= (1 + 0.025 * (rand_num - 9));
+    player.PrintStatus();
+
+  } else if (rand_num <= 22) {
+    cout << "Random event!: Strength Buff" << endl;
+    player.str_actual *= 1.25;
+    cout << player.name + " Strength increased to " << player.str_actual << endl;
+    player.PrintStatus();
+
+  } else if (rand_num <= 25) {
+    cout << "Random event!: Strength Debuff" << endl;
+    player.str_actual *= 0.75;
+    cout << player.name + " Strength decreased to " << player.str_actual << endl;
+    player.PrintStatus(); 
+
+  } else if (rand_num <= 28) {
+    cout << "Random event!: Defense Buff" << endl;
+    player.def_actual *= 1.25;
+    cout << player.name + " Defense increased to " << player.def_actual << endl;
+    player.PrintStatus(); 
+
+  } else if (rand_num <= 31) {
+    cout << "Random event!: Defense Debuff" << endl;
+    player.def_actual *= 0.75;
+    cout << player.name + " Defense decreased to " << player.def_actual << endl; 
+    player.PrintStatus();
+
+  } else if (rand_num <= 34) {
+    cout << "Random event!: Agility Buff" << endl;
+    player.agi_actual *= 1.25;
+    cout << player.name << "Agility increased to " << player.agi_actual << endl;
+    player.PrintStatus();
+
+  } else if (rand_num <= 38) {
+    cout << "Random event!: Agility Debuff" << endl;
+    player.agi_actual *= 0.75;
+    cout << player.name << "Agility decreased to " << player.agi_actual << endl;
+    player.PrintStatus();
+
+  } else if (rand_num == 39) {
+    cout << "Random event!: HELL 2 U !" << endl;
+    cout << "You just got a heart attack..." << endl;
+    player.hp_actual = 0;
+  }
+}
+
+void CombatMonsterRandomEvent(Monster &monster) {
+  srand(time(0));
+  int rand_num = rand() % 100;
+    
+  if (rand_num <= 9) {
+    cout << "Random event! Lightening strike" << endl;
+    cout << monster.name + " received " << 0.025 * (rand_num + 1) * monster.hp; 
+    cout << " damage " << endl;
+      
+    monster.hp *= (1 - 0.025 * (rand_num + 1));
+    monster.PrintStatus();
+
+  } else if (rand_num <= 19) {
+    cout << "Random event!: HEALING" << endl;
+    cout << monster.name + " received " << 0.025 * (rand_num - 9) * monster.hp;
+    cout << " healing " << endl;
+      
+    monster.hp *= (1 + 0.025 * (rand_num - 9));
+    monster.PrintStatus();
+
+  } else if (rand_num <= 22) {
+    cout << "Random event!: Strength Buff" << endl;
+    monster.str *= 1.25;
+    cout << monster.name + " Strength increased to " << monster.str << endl;
+    monster.PrintStatus();
+
+  } else if (rand_num <= 25) {
+    cout << "Random event!: Strength Debuff" << endl;
+    monster.str *= 0.75;
+    cout << monster.name + " Strength decreased to " << monster.str << endl;
+    monster.PrintStatus();
+
+  } else if (rand_num <= 28) {
+    cout << "Random event!: Defense Buff" << endl;
+    monster.def *= 1.25;
+    cout << monster.name + " Defense increased to " << monster.def << endl;
+    monster.PrintStatus();
+
+  } else if (rand_num <= 31) {
+    cout << "Random event!: Defense Debuff" << endl;
+    monster.def *= 0.75;
+    cout << monster.name + " Defense decreased to " << monster.def << endl;
+    monster.PrintStatus(); 
+
+  } else if (rand_num <= 34) {
+    cout << "Random event!: Agility Buff" << endl;
+    monster.agi *= 1.25;
+    cout << monster.name << "Agility increased to " << monster.agi << endl;
+    monster.PrintStatus();
+
+  } else if (rand_num <= 38) {
+    cout << "Random event!: Agility Debuff" << endl;
+    monster.agi *= 0.75;
+    monster.PrintStatus();
+
+    cout << monster.name << "Agility decreased to " << monster.agi << endl;
+  } else if (rand_num == 39) {
+    cout << "Random event!: HELL 2 U !" << endl;
+    cout << "You just got a heart attack..." << endl;
+    monster.hp= 0;
+  }
+}
+    
 // Purpose: To calculate health reduction of monster(value of the attack) 
 // by considering status(strength, defense and agility) of both sides
 void CombatPlayerAttack(Player &player, Monster &monster) {
@@ -59,6 +189,8 @@ void CombatPlayerAttack(Player &player, Monster &monster) {
 
   cout << endl;
   cout << "It is the player's turn to attack" << endl; 
+
+  CombatPlayerRandomEvent(player);
 
   if (CombatIsHit(player.agi_actual * player.item_agi_multiplier,
       monster.agi)) {   
@@ -76,6 +208,8 @@ void CombatPlayerAttack(Player &player, Monster &monster) {
   } else {
     cout << "Monster evaded your attack" << endl;
     }
+
+    cout << endl;
 }
 
 // Purpose: To calculate health reduction of player(value of the attack) 
@@ -84,6 +218,8 @@ void CombatMonsterAttack(Player &player, Monster &monster) {
     Pause(500);
     
     cout << "It is the Monster's turn to attack" << endl; 
+
+    CombatMonsterRandomEvent(monster);
 
     if (CombatIsHit(monster.agi, player.agi_actual 
         * player.item_agi_multiplier)) {   
@@ -102,6 +238,8 @@ void CombatMonsterAttack(Player &player, Monster &monster) {
     } else {
       cout << "You have evaded monster's attack" << endl;
     }
+
+    cout << endl;
 }
 
 // Purpose: To determine the outcome of the combat with the monster
