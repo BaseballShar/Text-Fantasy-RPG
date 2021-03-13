@@ -20,6 +20,12 @@ double CombatMultipler(int attack_str, int defend_def);
 // the higher the ratio, the more large the bound , hence a hit is more likely
 bool CombatIsHit(int attack_agi, int defend_agi);
 
+// Purpose: Random event for player during combat
+void CombatPlayerRandomEvent(Player &player, Monster &monster);
+
+// Purpose: Random event for monster during combat
+void CombatMonsterRandomEvent(Player &player, Monster &monster);
+
 // Purpose: To calculate health reduction of monster(value of the attack) 
 // by considering status(strength, defense and agility) of both sides
 void CombatPlayerAttack(Player &player, Monster &monster);
