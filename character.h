@@ -50,6 +50,7 @@ class Player
 // functions to print status of the monster
 class Monster {
   public:
+    string name = "Monster";
     int level;
     int hp; 
     int str; 
