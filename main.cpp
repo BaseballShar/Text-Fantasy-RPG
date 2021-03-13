@@ -189,10 +189,13 @@ void PrintPlayerDetailStatus(Player player) {
   cout << setw(30) << "$" + to_string(player.money) << "AGI: " 
   << player.agi_actual << endl;
 
+  cout << setw(30) << "Map(" + to_string(player.num_map) + "/3)" 
+  << "Token: " + to_string(player.num_token) << endl;
+  
   Line('-');
-  cout << setw(15) << "[1]Quit" << setw(15) << "[2]Fight" <<
-  setw(15) << "[3]Shop" << endl;
-  cout << setw(15) << "[4]Skill" << setw(15) << "[5]Status" << endl;
+  cout << setw(15) << "[1]Fight" << setw(15) << "[2]Shop" <<
+  setw(15) << "[3]Skill" << endl;
+  cout << setw(15) << "[4]Status" << setw(15) << "[5]Quit" << endl;
   Line('*');
   
 }
@@ -208,27 +211,27 @@ void GetAction(Player &player/*, Shop shop*/) {
   
   //To determine which action to be taken
   switch(action) {   
-    case 1:
-      player.death = true;
-      break;
-    case 2: // Combat
+    case 1: // Combat
       combat_result = Combat(player/*, shop*/);
       CombatReward(player, combat_result);
       SaveGame(player);
       break;
-    /*case 3: // Shop
+    /*case 2: // Shop
       shop_access(player , shop);
       SaveGame(player);
       break; */
-    case 4: // Skill points assignment
+    case 3: // Skill points assignment
       SkillPoint(player);
       //player_equipment_effect(player, shop);
       SaveGame(player);
       break; 
-    /*case 5: // Player status
+    /*case 4: // Player status
       player_detail_status(player, shop);
       SaveGame(player);
       break;*/
+    case 5:
+      player.death = true;
+      break;
   }
 } 
 
@@ -250,7 +253,6 @@ int main() {
   // Playing session
   while (player.death == false) {   
     PlayerEquipmentEffect(player);
-    player.PrintStatus();
     GetAction(player/*, shop*/);
     if (player.death == false) {
       LevelUpdate(player);
