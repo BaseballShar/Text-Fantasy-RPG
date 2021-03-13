@@ -13,6 +13,8 @@ class Player
     bool death = false; // Check the player is dead or not
     string name; // To save the player name
     string career; // To store the job selection of the player
+    int num_map = 0; // To store the number of maps the player owns
+    int num_token = 0; // To store the number of tokens the player owns
 
     long long hp_basic; // Variables for the hp
     double item_hp_multiplier = 1; 
@@ -57,6 +59,7 @@ class Monster {
     int def; 
     int agi;
     
+    bool is_boss;
     // Purpose: Printing out the monster status
     void PrintStatus();
 };
