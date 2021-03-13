@@ -10,30 +10,101 @@ void Pause(int time) {
 }
 
 Monster CombatLevelSelection(Player player) {
-  int monster_level;
+  int monster_level; // To choose the level of monster to fight
+  int monster_choice; // To choose whether to fight boss or normal monster
   Monster monster;
   bool confirm_choice = false;
+  
+  cout << "[1] Fight monsters" << endl;
+  switch(player.num_map) {
+    case 0:
+      cout << "[2] Fight Manager" << endl;
+      break;
+    case 1:
+      cout << "[2] Fight Vice President" << endl;
+      break;
+    case 2:
+      cout << "[2] Fight President" << endl;
+      break;
+    case 3:
+      cout << "[2] Fight Infinite Comment Client" << endl;
+      break;
+  }
+  cin >> monster_choice;
     
     // Monster level selection
   while (confirm_choice == false) {   
-    cout << "What level of monster you want to fight ? ";
-    cin >> monster_level;
-    
-    monster.level = monster_level;
-    monster.hp = 500 * monster_level;
-    monster.str = 100 * log2(monster_level + 1);
-    monster.def = 50 *  log2(monster_level + 1);
-    monster.agi = 50 * log2(monster_level + 1);
-    cout << "Are you sure you want to fight level " 
-    << monster_level << " monster with " << endl;
+    switch(monster_choice) {
+      case 1:
+        monster.is_boss = false;
+        cout << "What level of monster you want to fight ? ";
+        cin >> monster_level;
+
+        monster.level = monster_level;
+        monster.hp = 500 * monster_level;
+        monster.str = 100 * log2(monster_level + 1);
+        monster.def = 50 *  log2(monster_level + 1);
+        monster.agi = 50 * log2(monster_level + 1);
+
+        if(monster_level > 0) {
+        cout << "Are you sure you want to fight level " 
+        << monster_level << " monster with " << endl;
+        }
+        break;
+
+      case 2:
+        monster.is_boss = true;
+      switch(player.num_map) {
+          case 0:
+            monster.name = "Manager";
+            monster.hp = 7500;
+            monster.str = 500;
+            monster.def = 200;
+            monster.agi = 200;
+            cout << "Are you sure you want to fight Manager ?" << endl;
+            break; 
+            
+          case 1:
+            monster.name = "Vice president";
+            monster.hp = 15000;
+            monster.str = 750;
+            monster.def = 300;
+            monster.agi = 300;
+            cout << "Are you sure you want to fight Vice Manager ? " << endl;
+            break; 
+
+          case 2:
+            monster.name = "President";
+            monster.hp = 25000;
+            monster.str = 1000;
+            monster.def = 400;
+            monster.agi = 400;
+            cout << "Are you sure you want to fight President ?  " << endl;
+            break;
+
+          case 3:
+            monster.name = "Boss";
+            monster.hp = 100000;
+            monster.str = 2500;
+            monster.def = 1000;
+            monster.agi = 1000;
+            cout << "Are you sure you want to fight Boss ? " << endl;
+            break;
+      }
+    }
+
+    if (monster_level > 0) {
     monster.PrintStatus();
     player.PrintStatus();
 
     cout << "YES[1] \t No[0] " << endl;
     cin >> confirm_choice;
+    } else {
+      cout << "Level must be positive!" << endl;
+      confirm_choice = false;
     }
-
-    return monster;
+  }
+  return monster;
 }
 
 // Purpose: Function for calculating the attack modifier 
@@ -123,59 +194,59 @@ void CombatMonsterRandomEvent(Monster &monster) {
   srand(time(0));
   int rand_num = rand() % 100;
     
-  if (rand_num <= 9) {
+  if (rand_num >= 90) {
     cout << "Random event! Lightening strike" << endl;
-    cout << monster.name + " received " << 0.025 * (rand_num + 1) * monster.hp; 
+    cout << monster.name + " received " << 0.025 * (rand_num - 89) * monster.hp; 
     cout << " damage " << endl;
       
-    monster.hp *= (1 - 0.025 * (rand_num + 1));
+    monster.hp *= (1 - 0.025 * (rand_num - 89));
     monster.PrintStatus();
 
-  } else if (rand_num <= 19) {
+  } else if (rand_num >= 80) {
     cout << "Random event!: HEALING" << endl;
-    cout << monster.name + " received " << 0.025 * (rand_num - 9) * monster.hp;
+    cout << monster.name + " received " << 0.025 * (rand_num - 79) * monster.hp;
     cout << " healing " << endl;
       
-    monster.hp *= (1 + 0.025 * (rand_num - 9));
+    monster.hp *= (1 + 0.025 * (rand_num - 79));
     monster.PrintStatus();
 
-  } else if (rand_num <= 22) {
+  } else if (rand_num >= 77) {
     cout << "Random event!: Strength Buff" << endl;
     monster.str *= 1.25;
     cout << monster.name + " Strength increased to " << monster.str << endl;
     monster.PrintStatus();
 
-  } else if (rand_num <= 25) {
+  } else if (rand_num >= 74) {
     cout << "Random event!: Strength Debuff" << endl;
     monster.str *= 0.75;
     cout << monster.name + " Strength decreased to " << monster.str << endl;
     monster.PrintStatus();
 
-  } else if (rand_num <= 28) {
+  } else if (rand_num >= 71) {
     cout << "Random event!: Defense Buff" << endl;
     monster.def *= 1.25;
     cout << monster.name + " Defense increased to " << monster.def << endl;
     monster.PrintStatus();
 
-  } else if (rand_num <= 31) {
+  } else if (rand_num >= 68) {
     cout << "Random event!: Defense Debuff" << endl;
     monster.def *= 0.75;
     cout << monster.name + " Defense decreased to " << monster.def << endl;
     monster.PrintStatus(); 
 
-  } else if (rand_num <= 34) {
+  } else if (rand_num >= 65) {
     cout << "Random event!: Agility Buff" << endl;
     monster.agi *= 1.25;
     cout << monster.name << "Agility increased to " << monster.agi << endl;
     monster.PrintStatus();
 
-  } else if (rand_num <= 38) {
+  } else if (rand_num >= 62) {
     cout << "Random event!: Agility Debuff" << endl;
     monster.agi *= 0.75;
     monster.PrintStatus();
 
     cout << monster.name << "Agility decreased to " << monster.agi << endl;
-  } else if (rand_num == 39) {
+  } else if (rand_num == 61) {
     cout << "Random event!: HELL 2 U !" << endl;
     cout << "You just got a heart attack..." << endl;
     monster.hp= 0;
@@ -246,13 +317,15 @@ void CombatMonsterAttack(Player &player, Monster &monster) {
 // Experience point and money gained is calculated using the level
 // of monster that the player defeated
 void CombatReward(Player &player, int combat_result) {
-  if (combat_result != -1) {
+  if (combat_result > 0) {
     player.exp += 100 * combat_result;
     player.money += 50 * combat_result;
     cout << "You have acquried " << "$" << 100 * combat_result  << endl ;
     cout << "You have acquried " << 100 * combat_result 
     << " XP points" << endl ;
-
+  } else if(combat_result == -2) {
+    player.num_map += 1;
+    player.num_token += 1;
   } else { 
     player.death = true ;
     }
@@ -303,12 +376,16 @@ int Combat (Player &player/*, Shop shop*/) {
     
     // Combat outcome
     if (player.hp_actual > 0) {   
-        cout << "You have defeated the monster !!! " << endl;
+        cout << "You have defeated the " + monster.name + " !!! " << endl;
 
         // regenerate character status
         player = player_backup;
 
-        return monster.level;
+        if(!monster.is_boss) {
+          return monster.level;
+        } else {
+          return -2;
+        }
     } else {   
         cout << "You have been defeated " << endl;
         return -1;
