@@ -16,10 +16,11 @@
 
 #include "combat.h"
 #include "character.h"
+#include "skill_points.h"
 using namespace std;
 
 // Purpose: Print out a line of user specified symbol and length
-void Line(char symbol, int noOfSym = 85) {   
+void Line(char symbol, int noOfSym = 75) {   
   string output;
   for (int i = 0; i < noOfSym; i++) {
     output.push_back(symbol) ;
@@ -52,7 +53,8 @@ bool IsOldPlayer() {
   int has_played;
 
   cout << "Have you played this game before ?" << endl;
-  cout << "Enter 1 if you haven't , 2 if you have : ";
+  cout << "[1]Have not    [2]Have" << endl;
+  cout << "Enter the number in brackets to select the action: ";
   cin >> has_played ;
 
   switch(has_played) {
@@ -134,8 +136,8 @@ void GetCareer(int pause_career, Player &player) {
   Pause(pause_career);
   cout << "Assassin Class: Human with strong attack, rapid movement" 
   << " but lack defense " << endl;
-  cout << "Enter 1 for Adventurer Class ,"
-  << " 2 for Warrior and 3 for Assassin" << endl;
+  cout << "[1]Adventurer Class ,"
+  << " [2]Warrior and [3]Assassin" << endl;
   cin >> career_choice;
     
 
@@ -170,30 +172,37 @@ void DisplayWelcomeMenu(Player &player) {
   }
 } 
 
+void PrintPlayerDetailStatus(Player player) {
+  Line('*');
+  cout << "DEEP DARK FANTASY" << endl;
+  cout << left;
+  cout << setw(30) << "Name: " + player.name  << 
+  "HP: " << player.hp_actual << endl;
+
+  cout << setw(30) << "Career: " + player.career 
+  << "STR: " << player.str_actual << endl;
+
+  cout << setw(30) << "Level: " + to_string(player.level) + "(" + to_string(player.exp) + "/" 
+  + to_string(50 * player.level * player.level) + ")" << "DEF: " 
+  << player.def_actual << endl;
+
+  cout << setw(30) << "$" + to_string(player.money) << "AGI: " 
+  << player.agi_actual << endl;
+
+  Line('-');
+  cout << setw(15) << "[1]Quit" << setw(15) << "[2]Fight" <<
+  setw(15) << "[3]Shop" << endl;
+  cout << setw(15) << "[4]Skill" << setw(15) << "[5]Status" << endl;
+  Line('*');
+  
+}
+
 // Purpose: Function to get the action take by the player
 void GetAction(Player &player/*, Shop shop*/) {   
   int action;
   int combat_result;
 
-  Line('*');
-  cout << "DEEP DARK FANTASY" << endl;
-  cout << "Name : " << player.name 
-  << "\t\t\t\t HP : " << player.hp_actual << endl;
-
-  cout << "Career : " << player.career 
-  << "\t\t\t STR : " << player.str_actual << endl;
-
-  cout << "Level : " << player.level << "(" << player.exp << "/" 
-  << 50*player.level*player.level << ")" << "\t\t\t DEF : " 
-  << player.def_actual << endl;
-
-  cout << "$" << player.money << "\t\t\t\t\t AGI : " 
-  << player.agi_actual << endl;
-
-  Line('-');
-  cout << "Quit[1] \t Fight[2] \t Shop[3] \t Skill[4]" << endl;
-  cout << "Status[5]" << endl;
-  Line('*');
+  PrintPlayerDetailStatus(player);
 
   cin >> action;
   
@@ -211,11 +220,11 @@ void GetAction(Player &player/*, Shop shop*/) {
       shop_access(player , shop);
       SaveGame(player);
       break; */
-    /*case 4: // Skill points assignment
-      skill_pt(player);
-      player_equipment_effect(player, shop);
+    case 4: // Skill points assignment
+      SkillPoint(player);
+      //player_equipment_effect(player, shop);
       SaveGame(player);
-      break;*/ 
+      break; 
     /*case 5: // Player status
       player_detail_status(player, shop);
       SaveGame(player);
@@ -243,8 +252,9 @@ int main() {
     PlayerEquipmentEffect(player);
     player.PrintStatus();
     GetAction(player/*, shop*/);
-    /*if (player.death == false)
-        {level_update(player) ;}*/
+    if (player.death == false) {
+      LevelUpdate(player);
+    }
   }
     return 0;
 }
