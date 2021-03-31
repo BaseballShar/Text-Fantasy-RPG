@@ -5,6 +5,7 @@
 #include <thread>
 #include <chrono>
 #include "character.h"
+#include "shop.h"
 
 Monster CombatLevelSelection(Player player);
   
@@ -41,6 +42,6 @@ void CombatReward(Player &player, int combat_result);
 
 // Purpose: To be in charge of the whole combat situation
 // From monster creation, combating, to reward distribution
-int Combat (Player &player/*, Shop shop*/);
+int Combat (Player &player, Shop shop);
 
 #endif
