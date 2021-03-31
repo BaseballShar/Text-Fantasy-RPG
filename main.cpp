@@ -196,8 +196,10 @@ void PrintPlayerDetailStatus(Player player) {
   cout << setw(15) << "[1]Fight" << setw(15) << "[2]Shop" <<
   setw(15) << "[3]Skill" << endl;
   cout << setw(15) << "[4]Status" << setw(15) << "[5]Quit" << endl;
-  Line('*');
   
+  player.PrintEquipment();
+
+  Line('*');
 }
 
 // Purpose: Function to get the action take by the player
