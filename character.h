@@ -39,6 +39,12 @@ class Player
     int money = 0;
     int money_multiplier;
     
+    // Memory for storing the player's armour status
+    string armour;
+
+    // Memory for storing player's weapon status
+    string weapon;
+
     // Input: Basic status and career of the player
     // Purpose: This function is to initialize the status of the player
     void SetStatus(long long hp_basic, long long str_basic, 
@@ -46,6 +52,8 @@ class Player
 
     // Purpose: This function is to print the status of the player
     void PrintStatus();
+
+    void PrintEquipment();
 };
 
 // Purpose: For storing various status of the monster and providing useful 
