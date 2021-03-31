@@ -17,6 +17,7 @@
 #include "combat.h"
 #include "character.h"
 #include "skill_points.h"
+#include "shop.h"
 using namespace std;
 
 // Purpose: Print out a line of user specified symbol and length
@@ -203,7 +204,7 @@ void PrintPlayerDetailStatus(Player player) {
 }
 
 // Purpose: Function to get the action take by the player
-void GetAction(Player &player/*, Shop shop*/) {   
+void GetAction(Player &player, Shop shop) {   
   int action;
   int combat_result;
 
@@ -214,14 +215,14 @@ void GetAction(Player &player/*, Shop shop*/) {
   //To determine which action to be taken
   switch(action) {   
     case 1: // Combat
-      combat_result = Combat(player/*, shop*/);
+      combat_result = Combat(player, shop);
       CombatReward(player, combat_result);
       SaveGame(player);
       break;
-    /*case 2: // Shop
-      shop_access(player , shop);
+    case 2: // Shop
+      shop.DisplayItem();
       SaveGame(player);
-      break; */
+      break;
     case 3: // Skill points assignment
       SkillPoint(player);
       //player_equipment_effect(player, shop);
@@ -248,6 +249,7 @@ void PlayerEquipmentEffect (Player &player/*, Shop shop*/) {
 //main function
 int main() {
   Player player;
+  Shop shop;
 
   // Greeting and initializing game character
   DisplayWelcomeMenu(player);
@@ -255,7 +257,7 @@ int main() {
   // Playing session
   while (player.death == false) {   
     PlayerEquipmentEffect(player);
-    GetAction(player/*, shop*/);
+    GetAction(player, shop);
     if (player.death == false) {
       LevelUpdate(player);
     }
