@@ -4,101 +4,150 @@
 
 using namespace std;
 
-// Purpose: Pause the game for (time) miliseconds
+// Purpose: To pause the game for (time) miliseconds
 void Pause(int time) {
   std::this_thread::sleep_for(std::chrono::milliseconds(time));
 }
 
+// Purpose: To allow player to select which level for monsters to fight
 Monster CombatLevelSelection(Player player) {
-  int monster_level; // To choose the level of monster to fight
-  int monster_choice; // To choose whether to fight boss or normal monster
+  string monster_level; // To choose the level of monster to fight
+  string monster_choice; // To choose whether to fight boss or normal monster
   Monster monster;
-  bool confirm_choice = false;
-  
-  cout << "[1] Fight monsters" << endl;
-  switch(player.num_map) {
-    case 0:
-      cout << "[2] Fight Manager" << endl;
-      break;
-    case 1:
-      cout << "[2] Fight Vice President" << endl;
-      break;
-    case 2:
-      cout << "[2] Fight President" << endl;
-      break;
-    case 3:
-      cout << "[2] Fight Infinite Comment Client" << endl;
-      break;
-  }
-  cin >> monster_choice;
-    
+
+  bool confirm_choice = false; // To check whether the user comfirms
+  string confirm_choice_str; // String version of the above to order to 
+  // not cause error when user does not follow instructions
+
     // Monster level selection
-  while (confirm_choice == false) {   
-    switch(monster_choice) {
-      case 1:
-        monster.is_boss = false;
-        cout << "What level of monster you want to fight ? ";
-        cin >> monster_level;
+  while (confirm_choice == false && monster.is_exit == false) {
 
-        monster.level = monster_level;
-        monster.hp = 500 * monster_level;
-        monster.str = 100 * log2(monster_level + 1);
-        monster.def = 50 *  log2(monster_level + 1);
-        monster.agi = 50 * log2(monster_level + 1);
+    // record the length of player name for status printing
+    monster.player_name_len = player.name.length();
 
-        if(monster_level > 0) {
-        cout << "Are you sure you want to fight level " 
-        << monster_level << " monster with " << endl;
-        }
+    cout << "[0]Exit" << "    ";
+    cout << "[1]Fight monsters" << "    ";
+    switch(player.num_map) {
+      case 0:
+        cout << "[2]Fight Manager" << "    ";
         break;
-
+      case 1:
+        cout << "[2] Fight Vice President" << "    ";
+        break;
       case 2:
-        monster.is_boss = true;
-      switch(player.num_map) {
-          case 0:
-            monster.name = "Manager";
-            monster.hp = 7500;
-            monster.str = 500;
-            monster.def = 200;
-            monster.agi = 200;
-            cout << "Are you sure you want to fight Manager ?" << endl;
-            break; 
-            
-          case 1:
-            monster.name = "Vice president";
-            monster.hp = 15000;
-            monster.str = 750;
-            monster.def = 300;
-            monster.agi = 300;
-            cout << "Are you sure you want to fight Vice Manager ? " << endl;
-            break; 
+        cout << "[2] Fight President" << "    ";
+        break;
+      case 3:
+        cout << "[2] Fight Infinite Comment Client" << "    ";
+        break;
+    }
+    cout << endl;
+    cout << "Enter the number in brackets to select the action: ";
+    cin >> monster_choice;
 
-          case 2:
-            monster.name = "President";
-            monster.hp = 25000;
-            monster.str = 1000;
-            monster.def = 400;
-            monster.agi = 400;
-            cout << "Are you sure you want to fight President ?  " << endl;
-            break;
-
-          case 3:
-            monster.name = "Boss";
-            monster.hp = 100000;
-            monster.str = 2500;
-            monster.def = 1000;
-            monster.agi = 1000;
-            cout << "Are you sure you want to fight Boss ? " << endl;
-            break;
+    if (monster_choice == "0") {
+      monster.level = 0; // for exiting combat, set monster lv = 0
+      monster.is_exit = true;
+      return monster;
+    } else if (monster_choice == "1") {
+      monster.is_boss = false;
+      cout << "What level of monster you want to fight ? ";
+      cin >> monster_level;
+      
+      // prevent invalid input
+      for (int i = 0; i < monster_level.length(); i++) {
+        if (!isnumber(monster_level[i])) {
+          cout << "Please enter valid input!" << endl;
+          monster.level = 0;
+          monster.is_exit = true;
+          return monster;
+        }
       }
+      monster.level = stoi(monster_level);
+      monster.hp = 500 * monster.level;
+      monster.str = 100 * log2(monster.level + 1);
+      monster.def = 50 *  log2(monster.level + 1);
+      monster.agi = 50 * log2(monster.level + 1);
+
+      monster.name = "Monster";
+      player.monster_name_len = 7;
+
+      if(monster.level > 0) {
+      cout << "Are you sure you want to fight level " 
+      << monster.level << " monster  " << endl;
+      }
+    } else if (monster_choice == "2") {
+      monster.is_boss = true;
+      switch(player.num_map) {
+        case 0:
+          monster.name = "Manager";
+          monster.hp = 7500;
+          monster.str = 500;
+          monster.def = 200;
+          monster.agi = 200;
+
+          player.monster_name_len = 7;
+
+          cout << "Are you sure you want to fight Manager ?" << endl;
+          break; 
+            
+        case 1:
+          monster.name = "Vice president";
+          monster.hp = 15000;
+          monster.str = 750;
+          monster.def = 300;
+          monster.agi = 300;
+
+          player.monster_name_len = 14;
+
+          cout << "Are you sure you want to fight Vice Manager ? " << endl;
+          break; 
+
+        case 2:
+          monster.name = "President";
+          monster.hp = 25000;
+          monster.str = 1000;
+          monster.def = 400;
+          monster.agi = 400;
+
+          player.monster_name_len = 9;
+
+          cout << "Are you sure you want to fight President ?  " << endl;
+          break;
+
+        case 3:
+          monster.name = "Boss";
+          monster.hp = 100000;
+          monster.str = 2500;
+          monster.def = 1000;
+          monster.agi = 1000;
+
+          player.monster_name_len = 4;
+
+          cout << "Are you sure you want to fight Boss ? " << endl;
+          break;
+      }
+    } else {
+      cout << "Please enter valid input!" << endl;
+      monster.level = 0; // for exiting combat, set monster lv = 0
+      monster.is_exit = true;
+      return monster;
     }
 
-    if (monster_level > 0) {
-    monster.PrintStatus();
-    player.PrintStatus();
+    if (monster.level > 0 || monster.is_boss) {
+      monster.PrintStatus();
+      player.PrintStatus();
 
-    cout << "YES[1] \t No[0] " << endl;
-    cin >> confirm_choice;
+      cout << "[1]YES    [0]No" << endl;
+      cout << "Enter the number in brackets to select the action: ";
+      cin >> confirm_choice_str;
+
+      if (confirm_choice_str != "0" && confirm_choice_str != "1") {
+        cout << "Please enter valid input" << endl;
+      }
+      confirm_choice = (confirm_choice_str == "1")? true : false;
+      cout << endl;
+
     } else {
       cout << "Level must be positive!" << endl;
       confirm_choice = false;
@@ -107,7 +156,7 @@ Monster CombatLevelSelection(Player player) {
   return monster;
 }
 
-// Purpose: Function for calculating the attack modifier 
+// Purpose: To calculate the attack modifier 
 // based on strength and defense
 double CombatMultipler(int attack_str, int defend_def) {
   double ratio = attack_str * 1.0 / defend_def;
@@ -127,6 +176,7 @@ bool CombatIsHit(int attack_agi, int defend_agi) {
   return false;
 }
 
+// Purpose: To generate random event for player during combat
 void CombatPlayerRandomEvent(Player &player) {
   srand(time(0));
   int rand_num = rand() % 100;
@@ -190,6 +240,7 @@ void CombatPlayerRandomEvent(Player &player) {
   }
 }
 
+// Purpose: To generate random event for monster during combat
 void CombatMonsterRandomEvent(Monster &monster) {
   srand(time(0));
   int rand_num = rand() % 100;
@@ -248,7 +299,7 @@ void CombatMonsterRandomEvent(Monster &monster) {
     cout << monster.name << "Agility decreased to " << monster.agi << endl;
   } else if (rand_num == 61) {
     cout << "Random event!: HELL 2 U !" << endl;
-    cout << "You just got a heart attack..." << endl;
+    cout << monster.name << " just got a heart attack..." << endl;
     monster.hp= 0;
   }
 }
@@ -320,52 +371,49 @@ void CombatReward(Player &player, int combat_result) {
   if (combat_result > 0) {
     player.exp += 100 * combat_result;
     player.money += 50 * combat_result;
+
     cout << "You have acquried " << "$" << 100 * combat_result  << endl ;
     cout << "You have acquried " << 100 * combat_result 
     << " XP points" << endl ;
-  } else if(combat_result == -2) {
-    player.num_map += 1;
-    player.num_token += 1;
-  } else { 
+    // if managers are defeated
+  } else if (combat_result == -2) {
+      // if INFINITE COMMENT CLIENT is defeated
+      if (player.num_map == 3) {
+        player.is_boss_defeated = true;
+        player.death = true; // End of game
+      } else {
+        player.num_map += 1;
+        player.num_token += 1;
+      }
+  } else if (combat_result == -1){ 
     player.death = true ;
     }
 }
 
 // Purpose: To be in charge of the whole combat situation
 // From monster creation, combating, to reward distribution
-int Combat (Player &player/*, Shop shop*/) {   
+// Output: Returns -2 if boss is defeated
+//         Returns -1 if player is defeated
+//         Returns 0 if player exited combat
+int Combat (Player &player, Shop shop) {   
     //bool auto_combat = player.setting[0].second ;
     
     // Backup character data 
     Player player_backup = player; // Disallow status to changing while recording item comsumption
-    
-    // Update player status 
-    //player_equipment_effect(player, shop) ;
 
     // Creation of monster
     Monster monster = CombatLevelSelection(player);
     
+    // For exiting combat
+    if (monster.is_exit) {
+      return 0;
+    }
+
     // Fighting with monster   
     while (player.hp_actual > 0 && monster.hp > 0) {   
-      /*if (auto_combat == false) {   
-        int player_option;
-        cout << "What do you want to do next ? " << endl;
-        cout << "Enter 1 for normal attack  " << endl;
-        cout << "Enter 2 for using items  " << endl;
-        cin >> player_option;
 
-        switch(player_option) {
-          case 1 :
-            CombatPlayerAttack (player, monster);
-            break ;
-          case 2 :
-            //combat_player_use_item (player, player_backup);
-            break;
-        }
-
-      } else {*/
         CombatPlayerAttack(player, monster);
-        //} 
+
 
         if (!(player.hp_actual > 0 && monster.hp > 0)) {
           break;
