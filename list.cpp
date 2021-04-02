@@ -2,16 +2,8 @@
 #include "list.h"
 using namespace std;
 
-
-string List::first() {
-  return head -> data;
-}
-
-string List::last() {
-  return tail -> data;
-}
-
-void List::AppendBack(string str) {
+// Purpose: To add (str) to the back of the list
+void List::Append(string str) {
   Node *p = new Node;
   p -> data = str;
 
@@ -32,50 +24,29 @@ void List::AppendBack(string str) {
   len += 1;
 }
 
+// Purpose: To add (str) to the front of the list
 void List::AppendFront(string str) {
-  Node *p = new Node;
-  p -> data = str;
+    Node *p = new Node;
+    p -> data = str;
 
-  if (head != 0) {
-    Node *current = head;
+    if (head != 0) {
+      Node *current = head;
 
-    p -> next = head;
-    p -> prev = 0;
-    head -> prev = p;
-    head = p;
+      p -> next = head;
+      p -> prev = 0;
+      head -> prev = p;
+      head = p;
+    }
+    else {
+      head = p;
+      tail = p;
+      head -> next = 0;
+      head -> prev = 0;
+    }
+    len += 1;
   }
-  else {
-    head = p;
-    tail = p;
-    head -> next = 0;
-    head -> prev = 0;
-  }
-  len += 1;
-}
-
-void List::PrintForward() {
-  Node *current = head;
-  while (current != 0) {
-    cout << current -> data << " ";
-    current = current -> next;
-  }
-  cout << endl;
-}
-
-void List::PrintBackward() {
-  Node *current = head;
-  while (current -> next != 0) {
-    current = current -> next;
-  }
-
-  while (current != 0) {
-    cout << current -> data << " ";
-    current = current -> prev;
-  }
-  cout << endl;
-}
-
-  // Purpose: Returns elements at the ith index positions
+  
+// Purpose: Returns elements at the ith index positions
 string List::Extract(int index) {
   Node *current = head;
 
@@ -90,6 +61,7 @@ string List::Extract(int index) {
   }
 }
 
+// Purpose: To delete the element at index (index)
 void List::DeleteIndex(int index) {
   if (index == 0 && len != 1) {
     Node *del = head;
@@ -125,6 +97,7 @@ void List::DeleteIndex(int index) {
   len -= 1;
 }
 
+// Purpose: To delete the element of value (value)
 void List::DeleteValue(string value) {
   int index = 0;
   bool is_found = false;
@@ -142,40 +115,46 @@ void List::DeleteValue(string value) {
   }
 }
 
-
-
-void SortAsc(List &list) {
-  List sorted_list;
-  int min_index;
-  
-  while (list.len > 0) {
-    min_index = 0;
-    for (int i = 0; i < list.len; i++) {
-        if (list.Extract(i) < list.Extract(min_index))
-          min_index = i;
-    }
-
-    sorted_list.AppendBack(list.Extract(min_index));
-    list.DeleteIndex(min_index);
-  }
-  list.head = sorted_list.head;
-  list.tail = sorted_list.tail;
+// Purpose: To erase all elements in the list
+void List::DeleteAll() {
+ while (len > 0) {
+   DeleteIndex(0);
+ }
 }
 
-void SortDsc(List &list) {
-  List sorted_list;
-  int max_index;
-  
-  while (list.len > 0) {
-    max_index = 0;
-    for (int i = 0; i < list.len; i++) {
-        if (list.Extract(i) > list.Extract(max_index))
-          max_index = i;
+// Purpose: To find and return the index of element of value (value)
+int List::Find(string value) {
+  int index = 0;
+  for (int i = 0; i < len; i++) {
+    if (Extract(i) == value)
+      return i;
+  }
+  return -1;
+}
+
+// Purpose: To insert the element of value (value) at the index position
+void List::Insert(int index, string value) {
+  if (index == 0) {
+    AppendFront(value);
+  }
+  else {
+    Node *current = head;
+    for (int i = 0; i < index; i++) {
+      current = current -> next;
     }
 
-    sorted_list.AppendBack(list.Extract(max_index));
-    list.DeleteIndex(max_index);
+    Node *right = current;
+    Node *left = current -> prev;
+
+    Node *p = new Node;
+    p -> data = value;
+
+    left -> next = p;
+    p -> prev = left;
+    right -> prev = p;
+    p -> next = right;
+
+    len += 1;
   }
-  list.head = sorted_list.head;
-  list.tail = sorted_list.tail;
+  
 }
