@@ -7,12 +7,13 @@
 #include "character.h"
 #include "shop.h"
 
+// Purpose: To allow player to select which level for monsters to fight
 Monster CombatLevelSelection(Player player);
   
-// Purpose: Pause the game for (time) miliseconds
+// Purpose: To pause the game for (time) miliseconds
 void Pause(int time);
 
-// Purpose: Function for calculating the attack modifier 
+// Purpose: To calculate the attack modifier 
 // based on strength and defense
 double CombatMultipler(int attack_str, int defend_def);
 
@@ -21,10 +22,10 @@ double CombatMultipler(int attack_str, int defend_def);
 // the higher the ratio, the more large the bound , hence a hit is more likely
 bool CombatIsHit(int attack_agi, int defend_agi);
 
-// Purpose: Random event for player during combat
+// Purpose: To generate random event for player during combat
 void CombatPlayerRandomEvent(Player &player, Monster &monster);
 
-// Purpose: Random event for monster during combat
+// Purpose: To generate random event for monster during combat
 void CombatMonsterRandomEvent(Player &player, Monster &monster);
 
 // Purpose: To calculate health reduction of monster(value of the attack) 
