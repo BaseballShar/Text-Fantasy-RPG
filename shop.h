@@ -3,56 +3,95 @@
 
 #include "list.h"
 #include "character.h"
+#include "useful_function.h"
 #include <string>
 #include <iostream>
 #include <sstream>
 #include <iomanip>
+#include <cstdlib>
 using namespace std;
 
 struct Shop {
 
-  // Cost Name Hp_bonus Str_bonus Def_bonus Agi_bonus
+  // Dynamic memory for storing weapons avalible for purchase
+  // Storage format: Cost Name Hp_bonus Str_bonus Def_bonus Agi_bonus
   List weapon;
 
-  // Cost Name Hp_bonus Str_bonus Def_bonus Agi_bonus
+  // Dynamic memory for storing armours avalible for purchase
+  // Storage format: Cost Name Hp_bonus Str_bonus Def_bonus Agi_bonus
   List armour;
 
-  // constructor for shop
+  // Dynamic memory for storing weapons avalible for luckydraw
+  // Storage format: Cost Name Hp_bonus Str_bonus Def_bonus Agi_bonus
+  List luckydraw_weapon;
+
+  // Dynamic memory for storing weapons avalible for luckydraw
+  // Storage format: Cost Name Hp_bonus Str_bonus Def_bonus Agi_bonus
+  List luckydraw_armour;
+
+  // Constructor for shop for initializing stop content
   Shop() {
-    //ordinary armour
-    armour.AppendBack("50 LeatherArmour 1 1 1.1 1");
-    armour.AppendBack("100 HardenLeatherArmour 1 1 1.15 1");
-    armour.AppendBack("175 FurArmour 1 1 1.4 0.95");
-    armour.AppendBack("500 BronzeArmour 1 1 1.6 0.93");
-    armour.AppendBack("750 IronArmour 1 1 1.8 0.9");
-    armour.AppendBack("1000 SteelArmour 1 1 2 0.88");
-    armour.AppendBack("1500 DarksteelArmour 1 1 2.2 0.85");
-    armour.AppendBack("2000 MithrilArmour 1 1 2.6 0.8");
+    // ordinary armour
+    armour.Append("List of armours: ");
+    armour.Append("50 LeatherArmour 1 1 1.1 1");
+    armour.Append("100 HardenLeatherArmour 1 1 1.15 1");
+    armour.Append("175 FurArmour 1 1 1.4 0.95");
+    armour.Append("500 BronzeArmour 1 1 1.6 0.93");
+    armour.Append("750 IronArmour 1 1 1.8 0.9");
+    armour.Append("1000 SteelArmour 1 1 2 0.88");
+    armour.Append("1500 DarksteelArmour 1 1 2.2 0.85");
+    armour.Append("2000 MithrilArmour 1 1 2.6 0.8");
 
     // lucky draw armour
-    armour.AppendBack("99999999 DuckJacket 2 1 5 0.85");
-    armour.AppendBack("99999999 YourSweatySuit 10 1 1 0.5");
-    armour.AppendBack("99999999 InvisibleSuit 1 1 0.2 10");
+    armour.Append("99999999 DuckJacket 2 1 5 0.85");
+    armour.Append("99999999 YourSweatySuit 10 1 1 0.5");
+    armour.Append("99999999 InvisibleSuit 1 1 0.2 10");
+
+    luckydraw_armour.Append("99999999 DuckJacket 2 1 5 0.85");
+    luckydraw_armour.Append("99999999 YourSweatySuit 10 1 1 0.5");
+    luckydraw_armour.Append("99999999 InvisibleSuit 1 1 0.2 10");
 
     // ordinary weapon
-    weapon.AppendBack("50 Stick 1 1.1 1 1");
-    weapon.AppendBack("75 Spike 1 1.15 1 1");
-    weapon.AppendBack("100 WoodenSword 1 1.4 1 0.95");
-    weapon.AppendBack("100 BronzeSword 1 1.6 1 0.93");
-    weapon.AppendBack("100 IronSword 1 1.8 1 0.9");
-    weapon.AppendBack("100 SteelSword 1 2 1 0.88");
-    weapon.AppendBack("100 DarksteelSword 1 2.2 1 0.85");
-    weapon.AppendBack("100 MithrilSword 1 2.6 1 0.8");
+    weapon.Append("List of armours:");
+    weapon.Append("50 Stick 1 1.1 1 1");
+    weapon.Append("75 Spike 1 1.15 1 1");
+    weapon.Append("100 WoodenSword 1 1.4 1 0.95");
+    weapon.Append("350 BronzeSword 1 1.6 1 0.93");
+    weapon.Append("500 IronSword 1 1.8 1 0.9");
+    weapon.Append("750 SteelSword 1 2 1 0.88");
+    weapon.Append("1250 DarksteelSword 1 2.2 1 0.85");
+    weapon.Append("2000 MithrilSword 1 2.6 1 0.8");
 
     // lucky draw weapon
-    weapon.AppendBack("99999999 Chair 1 10 0.2 2");
-    weapon.AppendBack("99999999 Rabbit 1.5 2 1 5");
-    weapon.AppendBack("99999999 Carrot 1.5 4 2 1.5");
+    weapon.Append("99999999 Chair 1 10 0.2 2");
+    weapon.Append("99999999 Rabbit 1.5 2 1 5");
+    weapon.Append("99999999 Carrot 1.5 4 2 1.5");
+
+    luckydraw_weapon.Append("99999999 Chair 1 10 0.2 2");
+    luckydraw_weapon.Append("99999999 Rabbit 1.5 2 1 5");
+    luckydraw_weapon.Append("99999999 Carrot 1.5 4 2 1.5");
   }
 
-  void DisplayItem ();
+  int DisplayItem (int purchase_choice);
 
 };
 
-void MakePurchase(Shop &shop, Player &player);
+// Purpose: Function for handling armour transaction
+void MakePurchaseArmour(Player &player, Shop &shop ,int purchase_id);
+
+// Purpose: Function for handling weapon transaction
+void MakePurchaseWeapon(Player &player, Shop &shop, int purchase_id);
+
+// Purpose: Function for handling armour luckydraw
+void LuckyDrawArmour(Player &player, Shop &shop);
+
+// Purpose: Function for handling weapon luckydraw
+void LuckyDrawWeapon(Player &player, Shop &shop);
+
+// Purpose: Function for handling the luckydraw
+void LuckyDraw(Player &player, Shop &shop);
+
+// Function for purchasing items
+void MakePurchase(Player &player, Shop &shop);
+
 #endif
