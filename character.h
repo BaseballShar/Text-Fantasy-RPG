@@ -3,6 +3,10 @@
 
 #include <iostream>
 #include <string>
+#include <sstream>
+#include <iomanip>
+#include "list.h"
+
 using namespace std;
 
 // Purpose: For storing various status of the player and providing useful 
@@ -39,11 +43,15 @@ class Player
     int money = 0;
     int money_multiplier;
     
+
+    int monster_name_len; // record the length of monster name for status print
+    bool is_boss_defeated = false;
+
     // Memory for storing the player's armour status
-    string armour;
+    string armour = "";
 
     // Memory for storing player's weapon status
-    string weapon;
+    string weapon = "";
 
     // Input: Basic status and career of the player
     // Purpose: This function is to initialize the status of the player
@@ -53,6 +61,7 @@ class Player
     // Purpose: This function is to print the status of the player
     void PrintStatus();
 
+    // Purpise: This function is to print the equipment equipped by the player
     void PrintEquipment();
 };
 
@@ -60,6 +69,7 @@ class Player
 // functions to print status of the monster
 class Monster {
   public:
+    // Monster status
     string name = "Monster";
     int level;
     int hp; 
@@ -67,7 +77,10 @@ class Monster {
     int def; 
     int agi;
     
-    bool is_boss;
+    int player_name_len; // record the length player name for status print
+
+    bool is_boss; // whether the monster is a boss
+    bool is_exit = false; // whether the player wants to exit combat
     // Purpose: Printing out the monster status
     void PrintStatus();
 };
