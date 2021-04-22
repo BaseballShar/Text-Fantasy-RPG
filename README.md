@@ -34,11 +34,11 @@ INFINITE COMMENT CLIENT and return to the original world to win the game.
 Different systems of the game will be packaged into functions and stored in respective files. For example, shop.cpp and shop.h for functions related to the shop systems. This is to view the game in a more organized manner which allows easy debugging and improving.
 
 ### Quick Start
-- Open terminal
-- Navigate to the game folder
-- Enter *make rpg*
-- Enter *./rpg*
-- Start playing
+1. Open terminal
+2. Navigate to the game folder
+3. Enter *make rpg*
+4. Enter *./rpg*
+5. Start playing
 
 ### Sample Input / Output 
 - This could not be provided due to the random nature of the game
