@@ -1,6 +1,8 @@
 #include "combat.h"
 #include <cstdlib>
+#include <cctype>
 #include <ctime>
+#include <cmath>
 
 using namespace std;
 
@@ -16,7 +18,7 @@ Monster CombatLevelSelection(Player player) {
   Monster monster;
 
   bool confirm_choice = false; // To check whether the user comfirms
-  string confirm_choice_str; // String version of the above to order to 
+  string confirm_choice_str; // String version of the above to order to
   // not cause error when user does not follow instructions
 
     // Monster level selection
@@ -53,10 +55,10 @@ Monster CombatLevelSelection(Player player) {
       monster.is_boss = false;
       cout << "What level of monster you want to fight ? ";
       cin >> monster_level;
-      
+
       // prevent invalid input
       for (int i = 0; i < monster_level.length(); i++) {
-        if (!isnumber(monster_level[i])) {
+        if (!isdigit(monster_level[i])) {
           cout << "Please enter valid input!" << endl;
           monster.level = 0;
           monster.is_exit = true;
@@ -73,7 +75,7 @@ Monster CombatLevelSelection(Player player) {
       player.monster_name_len = 7;
 
       if(monster.level > 0) {
-      cout << "Are you sure you want to fight level " 
+      cout << "Are you sure you want to fight level "
       << monster.level << " monster  " << endl;
       }
     } else if (monster_choice == "2") {
@@ -89,8 +91,8 @@ Monster CombatLevelSelection(Player player) {
           player.monster_name_len = 7;
 
           cout << "Are you sure you want to fight Manager ?" << endl;
-          break; 
-            
+          break;
+
         case 1:
           monster.name = "Vice president";
           monster.hp = 15000;
@@ -101,7 +103,7 @@ Monster CombatLevelSelection(Player player) {
           player.monster_name_len = 14;
 
           cout << "Are you sure you want to fight Vice Manager ? " << endl;
-          break; 
+          break;
 
         case 2:
           monster.name = "President";
@@ -156,7 +158,7 @@ Monster CombatLevelSelection(Player player) {
   return monster;
 }
 
-// Purpose: To calculate the attack modifier 
+// Purpose: To calculate the attack modifier
 // based on strength and defense
 double CombatMultipler(int attack_str, int defend_def) {
   double ratio = attack_str * 1.0 / defend_def;
@@ -166,7 +168,7 @@ double CombatMultipler(int attack_str, int defend_def) {
 // Purpose: To determine whether a hit is successful or not
 // Mechanism : Create a bound of a randomly generate number by the ratio of agility of both sides
 // the higher the ratio, the more large the bound , hence a hit is more likely
-bool CombatIsHit(int attack_agi, int defend_agi) {    
+bool CombatIsHit(int attack_agi, int defend_agi) {
   double max = attack_agi * 100 / defend_agi;
 
   srand(time(0));
@@ -180,10 +182,10 @@ bool CombatIsHit(int attack_agi, int defend_agi) {
 void CombatPlayerRandomEvent(Player &player) {
   srand(time(0));
   int rand_num = rand() % 100;
-    
+
   if (rand_num <= 9) {
     cout << "Random event!: Lightening strike" << endl;
-    cout << player.name + " received " << (int) (0.025 * (rand_num + 1) * player.hp_actual); 
+    cout << player.name + " received " << (int) (0.025 * (rand_num + 1) * player.hp_actual);
     cout << " damage " << endl;
 
     player.hp_actual *= (1 - 0.025 * (rand_num + 1));
@@ -193,7 +195,7 @@ void CombatPlayerRandomEvent(Player &player) {
     cout << "Random event!: HEALING" << endl;
     cout << player.name + " received " << (int) (0.025 * (rand_num - 9) * player.hp_actual);
     cout << " healing " << endl;
-      
+
     player.hp_actual *= (1 + 0.025 * (rand_num - 9));
     player.PrintStatus();
 
@@ -207,18 +209,18 @@ void CombatPlayerRandomEvent(Player &player) {
     cout << "Random event!: Strength Debuff" << endl;
     player.str_actual *= 0.75;
     cout << player.name + " Strength decreased to " << player.str_actual << endl;
-    player.PrintStatus(); 
+    player.PrintStatus();
 
   } else if (rand_num <= 28) {
     cout << "Random event!: Defense Buff" << endl;
     player.def_actual *= 1.25;
     cout << player.name + " Defense increased to " << player.def_actual << endl;
-    player.PrintStatus(); 
+    player.PrintStatus();
 
   } else if (rand_num <= 31) {
     cout << "Random event!: Defense Debuff" << endl;
     player.def_actual *= 0.75;
-    cout << player.name + " Defense decreased to " << player.def_actual << endl; 
+    cout << player.name + " Defense decreased to " << player.def_actual << endl;
     player.PrintStatus();
 
   } else if (rand_num <= 34) {
@@ -244,12 +246,12 @@ void CombatPlayerRandomEvent(Player &player) {
 void CombatMonsterRandomEvent(Monster &monster) {
   srand(time(0));
   int rand_num = rand() % 100;
-    
+
   if (rand_num >= 90) {
     cout << "Random event! Lightening strike" << endl;
-    cout << monster.name + " received " << 0.025 * (rand_num - 89) * monster.hp; 
+    cout << monster.name + " received " << 0.025 * (rand_num - 89) * monster.hp;
     cout << " damage " << endl;
-      
+
     monster.hp *= (1 - 0.025 * (rand_num - 89));
     monster.PrintStatus();
 
@@ -257,7 +259,7 @@ void CombatMonsterRandomEvent(Monster &monster) {
     cout << "Random event!: HEALING" << endl;
     cout << monster.name + " received " << 0.025 * (rand_num - 79) * monster.hp;
     cout << " healing " << endl;
-      
+
     monster.hp *= (1 + 0.025 * (rand_num - 79));
     monster.PrintStatus();
 
@@ -283,7 +285,7 @@ void CombatMonsterRandomEvent(Monster &monster) {
     cout << "Random event!: Defense Debuff" << endl;
     monster.def *= 0.75;
     cout << monster.name + " Defense decreased to " << monster.def << endl;
-    monster.PrintStatus(); 
+    monster.PrintStatus();
 
   } else if (rand_num >= 65) {
     cout << "Random event!: Agility Buff" << endl;
@@ -303,29 +305,29 @@ void CombatMonsterRandomEvent(Monster &monster) {
     monster.hp= 0;
   }
 }
-    
-// Purpose: To calculate health reduction of monster(value of the attack) 
+
+// Purpose: To calculate health reduction of monster(value of the attack)
 // by considering status(strength, defense and agility) of both sides
 void CombatPlayerAttack(Player &player, Monster &monster) {
   Pause(500);
 
   cout << endl;
-  cout << "It is the player's turn to attack" << endl; 
+  cout << "It is the player's turn to attack" << endl;
 
   CombatPlayerRandomEvent(player);
 
   if (CombatIsHit(player.agi_actual * player.item_agi_multiplier,
-      monster.agi)) {   
-    int player_att = player.str_actual * player.item_str_multiplier 
+      monster.agi)) {
+    int player_att = player.str_actual * player.item_str_multiplier
     * CombatMultipler(player.str_actual
     * player.item_str_multiplier, monster.def);
 
     monster.hp -= player_att;
 
-    cout << "You have dealt " << player_att 
+    cout << "You have dealt " << player_att
     << " damage to the monster" << endl;
 
-    cout << player.name << " HP : " << player.hp_actual << " Monster HP: " 
+    cout << player.name << " HP : " << player.hp_actual << " Monster HP: "
     << monster.hp << endl;
   } else {
     cout << "Monster evaded your attack" << endl;
@@ -334,27 +336,27 @@ void CombatPlayerAttack(Player &player, Monster &monster) {
     cout << endl;
 }
 
-// Purpose: To calculate health reduction of player(value of the attack) 
+// Purpose: To calculate health reduction of player(value of the attack)
 // by considering status(strength, defense and agility) of both sides
 void CombatMonsterAttack(Player &player, Monster &monster) {
     Pause(500);
-    
-    cout << "It is the Monster's turn to attack" << endl; 
+
+    cout << "It is the Monster's turn to attack" << endl;
 
     CombatMonsterRandomEvent(monster);
 
-    if (CombatIsHit(monster.agi, player.agi_actual 
-        * player.item_agi_multiplier)) {   
-      int monster_att = monster.str 
-      * CombatMultipler(monster.str, player.def_actual 
+    if (CombatIsHit(monster.agi, player.agi_actual
+        * player.item_agi_multiplier)) {
+      int monster_att = monster.str
+      * CombatMultipler(monster.str, player.def_actual
       * player.item_def_multiplier);
 
       player.hp_actual -= monster_att;
-      
-      cout << "Monster have dealt " << monster_att 
+
+      cout << "Monster have dealt " << monster_att
       << " damage to you" << endl;
 
-      cout << player.name << " HP : " << player.hp_actual 
+      cout << player.name << " HP : " << player.hp_actual
       << " Monster HP: " << monster.hp << endl;
 
     } else {
@@ -373,7 +375,7 @@ void CombatReward(Player &player, int combat_result) {
     player.money += 50 * combat_result;
 
     cout << "You have acquried " << "$" << 100 * combat_result  << endl ;
-    cout << "You have acquried " << 100 * combat_result 
+    cout << "You have acquried " << 100 * combat_result
     << " XP points" << endl ;
     // if managers are defeated
   } else if (combat_result == -2) {
@@ -385,7 +387,7 @@ void CombatReward(Player &player, int combat_result) {
         player.num_map += 1;
         player.num_token += 1;
       }
-  } else if (combat_result == -1){ 
+  } else if (combat_result == -1){
     player.death = true ;
     }
 }
@@ -395,22 +397,22 @@ void CombatReward(Player &player, int combat_result) {
 // Output: Returns -2 if boss is defeated
 //         Returns -1 if player is defeated
 //         Returns 0 if player exited combat
-int Combat (Player &player, Shop shop) {   
+int Combat (Player &player, Shop shop) {
     //bool auto_combat = player.setting[0].second ;
-    
-    // Backup character data 
+
+    // Backup character data
     Player player_backup = player; // Disallow status to changing while recording item comsumption
 
     // Creation of monster
     Monster monster = CombatLevelSelection(player);
-    
+
     // For exiting combat
     if (monster.is_exit) {
       return 0;
     }
 
-    // Fighting with monster   
-    while (player.hp_actual > 0 && monster.hp > 0) {   
+    // Fighting with monster
+    while (player.hp_actual > 0 && monster.hp > 0) {
 
         CombatPlayerAttack(player, monster);
 
@@ -419,11 +421,11 @@ int Combat (Player &player, Shop shop) {
           break;
         }
 
-        CombatMonsterAttack(player, monster);      
+        CombatMonsterAttack(player, monster);
     }
-    
+
     // Combat outcome
-    if (player.hp_actual > 0) {   
+    if (player.hp_actual > 0) {
         cout << "You have defeated the " + monster.name + " !!! " << endl;
 
         // regenerate character status
@@ -434,7 +436,7 @@ int Combat (Player &player, Shop shop) {
         } else {
           return -2;
         }
-    } else {   
+    } else {
         cout << "You have been defeated " << endl;
         return -1;
     }
