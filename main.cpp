@@ -111,7 +111,7 @@ void SaveGame(Player player, Shop shop) {
 void LoadGame(Player &player, Shop &shop) {
   ifstream filein("rpg_save");
   // loading player status
-  filein >> player.name;
+  getline(filein, player.name);
   filein >> player.career;
   filein >> player.hp_basic;
   filein >> player.str_basic;
