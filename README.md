@@ -35,7 +35,7 @@ Different systems of the game will be packaged into functions and stored in resp
 
 ### Assumption in gameplay
 - Player is assumed to play logically, for example, valid inputs are always provided.
-- 
+
 ### Quick Start
 1. Open terminal
 2. Navigate to the game folder
