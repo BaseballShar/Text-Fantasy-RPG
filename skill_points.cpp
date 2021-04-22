@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstdlib>
+#include <cmath>
 #include "skill_points.h"
 using namespace std;
 
@@ -10,12 +11,12 @@ void UpgradeHP(Player &player) {
 
   cout << "How much skill points you would like to assign ?";
   cin >> num_assign_skill_pt_str;
-              
+
   // Prevent invalid input
   if (IsNum(num_assign_skill_pt_str)) {
     num_assign_skill_pt = stoi(num_assign_skill_pt_str);
 
-  // Check whether the player has sufficient skills points 
+  // Check whether the player has sufficient skills points
     if (num_assign_skill_pt <= player.skill_pt) {
       player.hp_basic *= pow(1.1, num_assign_skill_pt);
       player.skill_pt -= num_assign_skill_pt;
@@ -27,7 +28,7 @@ void UpgradeHP(Player &player) {
     // Handle invalid input
   } else {
     cout << "Please enter valid input" << endl;
-  } 
+  }
 }
 
 // Purpose: To assign skill points to STR
@@ -37,12 +38,12 @@ void UpgradeSTR(Player &player) {
 
   cout << "How much skill points you would like to assign ?";
   cin >> num_assign_skill_pt_str;
-              
+
   // Prevent invalid input
   if (IsNum(num_assign_skill_pt_str)) {
     num_assign_skill_pt = stoi(num_assign_skill_pt_str);
 
-  // Check whether the player has sufficient skills points 
+  // Check whether the player has sufficient skills points
     if (num_assign_skill_pt <= player.skill_pt) {
       player.str_basic *= pow(1.1, num_assign_skill_pt);
       player.skill_pt -= num_assign_skill_pt;
@@ -54,7 +55,7 @@ void UpgradeSTR(Player &player) {
     // Handle invalid input
   } else {
     cout << "Please enter valid input" << endl;
-  } 
+  }
 }
 
 // Purpose: To assign skill points to DEF
@@ -64,12 +65,12 @@ void UpgradeDEF(Player &player) {
 
   cout << "How much skill points you would like to assign ?";
   cin >> num_assign_skill_pt_str;
-              
+
   // Prevent invalid input
   if (IsNum(num_assign_skill_pt_str)) {
     num_assign_skill_pt = stoi(num_assign_skill_pt_str);
 
-  // Check whether the player has sufficient skills points 
+  // Check whether the player has sufficient skills points
     if (num_assign_skill_pt <= player.skill_pt) {
       player.def_basic *= pow(1.1, num_assign_skill_pt);
       player.skill_pt -= num_assign_skill_pt;
@@ -81,7 +82,7 @@ void UpgradeDEF(Player &player) {
     // Handle invalid input
   } else {
     cout << "Please enter valid input" << endl;
-  } 
+  }
 }
 
 // Purpose: To assign skill points to AGI
@@ -91,12 +92,12 @@ void UpgradeAGI(Player &player) {
 
   cout << "How much skill points you would like to assign ?";
   cin >> num_assign_skill_pt_str;
-              
+
   // Prevent invalid input
   if (IsNum(num_assign_skill_pt_str)) {
     num_assign_skill_pt = stoi(num_assign_skill_pt_str);
 
-  // Check whether the player has sufficient skills points 
+  // Check whether the player has sufficient skills points
     if (num_assign_skill_pt <= player.skill_pt) {
       player.agi_basic *= pow(1.1, num_assign_skill_pt);
       player.skill_pt -= num_assign_skill_pt;
@@ -108,22 +109,22 @@ void UpgradeAGI(Player &player) {
     // Handle invalid input
   } else {
     cout << "Please enter valid input" << endl;
-  } 
+  }
 }
 
 // Purpose: To be in charge of the skill point system
-void SkillPoint(Player &player) {   
-  while (player.skill_pt > 0) {   
+void SkillPoint(Player &player) {
+  while (player.skill_pt > 0) {
     string option; // variable for choosing skill point actions
     string assign_choice; // variable for choosing what status to upgrade
     string num_of_skill_pt_str;
     int num_of_skill_pt;
-    
+
     cout << "[0] Exit    [1] Assign Skill Points" << endl;
     cin >> option;
-    
+
     if (option == "1") {
-        do {   
+        do {
           cout << endl ;
           cout << "You currently have " << player.skill_pt << " skill points " << endl;
           cout << "Which Ability do you want to level up ?"  << endl ;
@@ -154,7 +155,7 @@ void SkillPoint(Player &player) {
     } else {
       cout << "Please enter valid input!" << endl;
     }
-  
+
     // When player has no skill points left
    if (player.skill_pt == 0) {
     cout << "You have no skill points to assign, fight some monsters to acquire skill points" << endl;
@@ -163,8 +164,8 @@ void SkillPoint(Player &player) {
 }
 
 // Purpose: To update the level status of the player
-void LevelUpdate (Player &player) {   
-  while (player.exp >= 50 * player.level*player.level) {      
+void LevelUpdate (Player &player) {
+  while (player.exp >= 50 * player.level*player.level) {
     player.exp -= 50 * player.level*player.level;
     player.level += 1;
     // Player gains skill points when leveling up
