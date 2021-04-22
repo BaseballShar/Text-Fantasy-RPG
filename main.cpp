@@ -3,10 +3,10 @@
 // Developers: Chan Tsz Ho  (3035785738)
 //             Chan Yuk Yin (3035786574)
 //
-// Description: This is a text-based role-playing game which is set in 
-// a dark medieval fantasy world. You the player will act as an adventurer 
+// Description: This is a text-based role-playing game which is set in
+// a dark medieval fantasy world. You the player will act as an adventurer
 // in the game. By acquiring strength and powerful equipment through combating
-// monsters spread throughout the world, player will eventually be able to 
+// monsters spread throughout the world, player will eventually be able to
 // fight the Monster King and save mankind to win the game.
 
 #include <iostream>
@@ -23,7 +23,7 @@ using namespace std;
 // Input: char symbol: symbol that will be printed
 //        int no noOfSym: number of symbols to be printed
 // Purpose: Print out a line of user specified symbol and length
-void Line(char symbol, int noOfSym = 75) {   
+void Line(char symbol, int noOfSym = 75) {
   string output;
   for (int i = 0; i < noOfSym; i++) {
     output.push_back(symbol) ;
@@ -43,7 +43,7 @@ void PrintStory() {
   "The keyboard crashed onto the monitor and the electrical wires inside\n"
   "were in contact with your hand. It was too late to retract your hands.\n"
   "Suddenly, a blue portal emerged near the desk and you were teleported to\n"
-  "a strange new world.\n\n"   
+  "a strange new world.\n\n"
   "And now! You are destinated to be the hero of this world!\n"
   "Fight the three most horrible Monsters to take their maps!\n"
   "The maps lead you to fight the King Of Boss \"Infinite Comments Client\"!\n"
@@ -54,7 +54,7 @@ void PrintStory() {
 // Purpose: For checking whether the player has played the game before
 // Output: true (if the player has played before)
 //         false (if the player has not played before)
-bool IsOldPlayer() {   
+bool IsOldPlayer() {
   string has_played;
   bool is_valid = false;
 
@@ -152,7 +152,7 @@ void LoadGame(Player &player, Shop &shop) {
 
 // Input: Player and shop object for recording the name of the player
 // Purpose: Function to get the name of the player
-void GetName(Player &player) {   
+void GetName(Player &player) {
   string name;
 
   cout << "What is your name adventurer ? ";
@@ -165,10 +165,10 @@ void GetName(Player &player) {
 // Input: int pause_career (Time to be paused between lines in ms)
 //        Player player (Player object for storing the career)
 // Purpose: Function to get the career of the player
-void GetCareer(int pause_career, Player &player) {   
+void GetCareer(int pause_career, Player &player) {
   // Display avaliable choices
-  int career_choice; 
-  
+  int career_choice;
+
   cout << "Here are the list of careers that you can choose from" << endl;
   Pause(pause_career);
   cout << "Adventurer Class: Human with average abilities " << endl;
@@ -176,15 +176,15 @@ void GetCareer(int pause_career, Player &player) {
   cout << "Warrior Class: Human with moderately high strength"
   << " and superior defense but low mobility " << endl;
   Pause(pause_career);
-  cout << "Assassin Class: Human with strong attack, rapid movement" 
+  cout << "Assassin Class: Human with strong attack, rapid movement"
   << " but lack defense " << endl;
   cout << "[1]Adventurer    [2]Warrior    [3]Assassin" << endl;
   cout << "Enter the number in brackets to select the action: ";
   cin >> career_choice;
-    
+
 
   // Assign character status
-  switch (career_choice) {   
+  switch (career_choice) {
     // hp str def agi career
     case 1:
       player.SetStatus(1000, 100, 100, 100, "Adventurer");
@@ -204,15 +204,15 @@ void GetCareer(int pause_career, Player &player) {
 // If player has not played before, new character profile will be created
 void DisplayWelcomeMenu(Player &player, Shop &shop) {
   cout << "Welcome to Deep Dark Fantasy" << endl;
-  
+
   if (IsOldPlayer()) {
     LoadGame(player, shop);
-  } else {  
-    PrintStory(); 
+  } else {
+    PrintStory();
     GetName(player);
     GetCareer(500, player); // 500 ms pause
   }
-} 
+}
 
 // Input: Player player (Player object for retrieving data to print)
 // Purpose: Printing the status and equipments owned by the player
@@ -221,22 +221,22 @@ void PrintPlayerDetailStatus(Player player) {
   // printing status of player
   cout << "DEEP DARK FANTASY" << endl;
   cout << left;
-  cout << setw(30) << "Name: " + player.name  << 
+  cout << setw(30) << "Name: " + player.name  <<
   "HP: " << player.hp_actual << "(Basic: " << player.hp_basic << ")" << endl;
 
   cout << setw(30) << "Career: " + player.career << "STR: ";
   cout << player.str_actual << "(Basic: " << player.str_basic << ")"<< endl;
 
-  cout << setw(30) << "Level: " + to_string(player.level) + "(" + to_string(player.exp) + "/" 
-  + to_string(50 * player.level * player.level) + ")" << "DEF: " 
+  cout << setw(30) << "Level: " + to_string(player.level) + "(" + to_string(player.exp) + "/"
+  + to_string(50 * player.level * player.level) + ")" << "DEF: "
   << player.def_actual << "(Basic: " << player.def_basic << ")" <<  endl;
 
-  cout << setw(30) << "$" + to_string(player.money) << "AGI: " 
+  cout << setw(30) << "$" + to_string(player.money) << "AGI: "
   << player.agi_actual << "(Basic: " << player.agi_basic << ")" << endl;
 
-  cout << setw(30) << "Map(" + to_string(player.num_map) + "/3)" 
+  cout << setw(30) << "Map(" + to_string(player.num_map) + "/3)"
   << "Token: " + to_string(player.num_token) << endl;
-  
+
   cout << "Skill Points: " << player.skill_pt << endl;
 
   // printing equipment weared by player
@@ -245,7 +245,7 @@ void PrintPlayerDetailStatus(Player player) {
   Line('-'); // separator
   cout << setw(20) << "[1]Fight" << setw(20) << "[2]Shop";
   cout << setw(20) << "[3]Skill" << endl;
-  cout << setw(20) << "[4]Help" << setw(20) << "[5]Quit" << endl;
+  cout << setw(20) << "[4]Quit" << endl;
 
   Line('*'); // separator
 
@@ -255,7 +255,7 @@ void PrintPlayerDetailStatus(Player player) {
 // Input: Player player (Player object for storing and loading data)
 //        Shop shop (Shop object for storing and loading data)
 // Purpose: Function to get the action requested by the player
-void GetAction(Player &player, Shop shop) {   
+void GetAction(Player &player, Shop shop) {
   string action;
   int combat_result;
 
@@ -275,13 +275,12 @@ void GetAction(Player &player, Shop shop) {
   } else if (action == "3") { // Skill points assignment
       SkillPoint(player);
       SaveGame(player, shop);
-  } else if (action == "4") {
-  } else if (action == "5") { // Quit game
+  } else if (action == "4") { // Quit game
       player.death = true;
   } else {
     cout << "Please enter valid input!" << endl;
   }
-} 
+}
 
 // Input: Player player (Player object for storing the amended status)
 // Purpose: To apply the effects of equipment on player
@@ -339,7 +338,7 @@ void PlayerEquipmentEffect (Player &player) {
     weapon_def_bonus = "1";
     weapon_agi_bonus = "1";
   }
-  
+
   // Adding armour and weapon effect to player's status
   player.hp_actual = player.hp_basic * stod(weapon_hp_bonus)
                     * stod(armour_hp_bonus);
