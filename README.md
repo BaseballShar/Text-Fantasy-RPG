@@ -33,6 +33,9 @@ INFINITE COMMENT CLIENT and return to the original world to win the game.
 ### Multiple-File compilation (*Requirement 5*):
 Different systems of the game will be packaged into functions and stored in respective files. For example, shop.cpp and shop.h for functions related to the shop systems. This is to view the game in a more organized manner which allows easy debugging and improving.
 
+### Assumption in gameplay
+- Player is assumed to play logically, for example, valid inputs are always provided.
+- 
 ### Quick Start
 1. Open terminal
 2. Navigate to the game folder
