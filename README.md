@@ -45,3 +45,6 @@ Different systems of the game will be packaged into functions and stored in resp
 
 ### Sample Input / Output 
 - This could not be provided due to the random nature of the game
+
+### Code testing
+- academy11 server was used for code testing
