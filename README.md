@@ -1,4 +1,4 @@
-# Text fantasy RPG
+# Text Fantasy RPG
 
 ### Team Members:
 Chan Tsz Ho (3035785738)
