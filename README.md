@@ -1,4 +1,4 @@
-# ENGG 1340 Group 137 Game Project
+# Text fantasy RPG
 
 ### Team Members:
 Chan Tsz Ho (3035785738)
